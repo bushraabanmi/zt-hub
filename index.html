@@ -510,6 +510,74 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .vault-doc-status { font-size:10px; font-weight:700; padding:2px 7px; border-radius:8px; white-space:nowrap; }
 .vault-doc-linked { background:rgba(92,200,152,0.15); color:#5cc898; }
 .vault-doc-empty  { background:rgba(255,253,244,0.06); color:rgba(255,253,244,0.3); }
+
+/* ── Session timeout modal ── */
+#timeout-modal { display:none; position:fixed; inset:0; background:rgba(3,15,28,0.88); z-index:99999; align-items:center; justify-content:center; }
+#timeout-modal.active { display:flex; }
+.timeout-box { background:#071d2f; border:1px solid rgba(202,164,133,0.35); border-radius:16px; padding:36px 32px; text-align:center; max-width:340px; width:90%; }
+.timeout-icon { font-size:36px; margin-bottom:14px; }
+.timeout-title { font-size:17px; font-weight:700; color:var(--white); margin-bottom:8px; }
+.timeout-sub { font-size:13px; color:rgba(255,253,244,0.55); margin-bottom:22px; line-height:1.5; }
+.timeout-sub strong { color:var(--camel); }
+.timeout-stay { background:rgba(202,164,133,0.15); border:1px solid rgba(202,164,133,0.4); color:var(--camel); border-radius:8px; padding:10px 26px; font-size:13px; cursor:pointer; font-family:inherit; transition:background .15s; }
+.timeout-stay:hover { background:rgba(202,164,133,0.25); }
+/* ── Theme toggle ── */
+.theme-btn { background:rgba(255,253,244,0.06); border:1px solid rgba(202,164,133,0.2); border-radius:8px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,253,244,0.5); transition:all .15s; flex-shrink:0; }
+.theme-btn:hover { color:var(--camel); border-color:rgba(202,164,133,0.4); }
+/* ── Trend indicators ── */
+.stat-trend { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:8px; margin-top:5px; letter-spacing:.3px; }
+.trend-up   { background:rgba(92,200,152,0.15); color:#5cc898; }
+.trend-down { background:rgba(224,92,92,0.15); color:#e05c5c; }
+.trend-flat { background:rgba(255,253,244,0.07); color:rgba(255,253,244,0.4); }
+/* ── Expandable row detail ── */
+.zt-expandable { cursor:pointer; transition:background .12s; }
+.zt-expandable:hover { background:rgba(202,164,133,0.06) !important; }
+.row-detail-tr td { background:rgba(202,164,133,0.05) !important; border-top:none !important; padding:14px 16px !important; }
+.row-detail-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px 16px; }
+.row-detail-item { }
+.row-detail-label { font-size:10px; color:rgba(202,164,133,0.6); text-transform:uppercase; letter-spacing:.5px; margin-bottom:3px; }
+.row-detail-val { font-size:13px; color:rgba(255,253,244,0.85); font-weight:600; }
+/* ── Light mode ── */
+body.light-mode { --navy:#f0ede8; --white:#1a1510; --camel:#8B6840; background:#f0ede8; }
+body.light-mode .sidebar { background:#1a1510; }
+body.light-mode .sidebar .nav-item { color:rgba(255,253,244,0.45); }
+body.light-mode .sidebar .nav-item.active { color:#CAA485; background:rgba(202,164,133,0.12); }
+body.light-mode .main-area { background:#f0ede8; }
+body.light-mode .topbar { background:#ffffff; border-bottom:1px solid rgba(0,0,0,0.08); }
+body.light-mode .topbar-group { color:rgba(26,21,16,0.5); }
+body.light-mode .topbar-title { color:#1a1510; }
+body.light-mode .topbar-role, body.light-mode .topbar-date { color:rgba(26,21,16,0.45); }
+body.light-mode .content-area { background:#f0ede8; }
+body.light-mode .card { background:#ffffff; border-color:rgba(0,0,0,0.08); box-shadow:0 1px 4px rgba(0,0,0,0.07); }
+body.light-mode .card-title { color:rgba(26,21,16,0.55); }
+body.light-mode .stat-val { color:#1a1510; }
+body.light-mode .stat-label { color:rgba(26,21,16,0.45); }
+body.light-mode .panel-title { color:#1a1510; }
+body.light-mode .panel-sub { color:rgba(26,21,16,0.4); }
+body.light-mode .zt-table { background:transparent; }
+body.light-mode .zt-table th { background:rgba(0,0,0,0.04); color:rgba(26,21,16,0.5); border-color:rgba(0,0,0,0.08); }
+body.light-mode .zt-table td { border-color:rgba(0,0,0,0.06); color:rgba(26,21,16,0.8); }
+body.light-mode .zt-table tbody tr:hover { background:rgba(0,0,0,0.03); }
+body.light-mode .search-input { background:rgba(0,0,0,0.06); border-color:rgba(0,0,0,0.15); color:#1a1510; }
+body.light-mode .search-input::placeholder { color:rgba(26,21,16,0.35); }
+body.light-mode .theme-btn { background:rgba(0,0,0,0.06); border-color:rgba(0,0,0,0.15); color:rgba(26,21,16,0.5); }
+body.light-mode .nav-group-label { color:rgba(255,253,244,0.25); }
+body.light-mode .kpi-bar-wrap { background:rgba(0,0,0,0.08); }
+body.light-mode .vault-card { background:#ffffff; border-color:rgba(0,0,0,0.08); }
+body.light-mode .vault-doc-row { background:rgba(0,0,0,0.03); border-color:rgba(0,0,0,0.07); }
+body.light-mode .vault-doc-row:hover { background:rgba(0,0,0,0.07); }
+body.light-mode .vault-doc-label { color:rgba(26,21,16,0.65); }
+body.light-mode .comp-filter-btn { background:rgba(0,0,0,0.05); border-color:rgba(0,0,0,0.12); color:rgba(26,21,16,0.5); }
+body.light-mode .row-detail-tr td { background:rgba(0,0,0,0.025) !important; }
+body.light-mode .row-detail-label { color:rgba(26,21,16,0.45); }
+body.light-mode .row-detail-val { color:rgba(26,21,16,0.85); }
+body.light-mode .diag-issue { border-color:rgba(0,0,0,0.07); }
+body.light-mode .diag-field { color:rgba(26,21,16,0.75); }
+body.light-mode .diag-note { color:rgba(26,21,16,0.45); }
+body.light-mode .omt-node { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.1); }
+body.light-mode .omt-name { color:rgba(26,21,16,0.9); }
+body.light-mode .omt-meta { color:rgba(26,21,16,0.45); }
+body.light-mode .prog-fill { opacity:0.9; }
 </style>
 </head>
 <body>
@@ -580,6 +648,15 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 
 <!-- ═══ APP ═══ -->
 <div id="app">
+<div id="timeout-modal">
+  <div class="timeout-box">
+    <div class="timeout-icon">&#9201;</div>
+    <div class="timeout-title">Session Expiring</div>
+    <div class="timeout-sub">You will be signed out in <strong><span id="timeout-countdown">60</span>s</strong> due to inactivity.</div>
+    <button class="timeout-stay" onclick="resetTimeout()">Stay Signed In</button>
+  </div>
+</div>
+
 
   <!-- SIDEBAR -->
   <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
@@ -648,7 +725,11 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
         <div class="topbar-title" id="topbar-title">Group Overview</div>
       </div>
       <div class="topbar-right">
-        <div class="search-wrap">
+<button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Toggle theme">
+          <svg id="theme-sun" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" style="display:none"><circle cx="7.5" cy="7.5" r="2.5"/><path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M3 3l1 1M11 11l1 1M11 3l-1 1M3 11l1-1" stroke-linecap="round"/></svg>
+          <svg id="theme-moon" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 9.5A6 6 0 015.5 2a6 6 0 100 11 6 6 0 007.5-3.5z" stroke-linecap="round"/></svg>
+        </button>
+                <div class="search-wrap">
           <span class="search-icon">⌕</span>
           <input class="search-input" id="search-input" type="text" placeholder="Search…" oninput="doSearch(this.value)" autocomplete="off">
         </div>
@@ -900,8 +981,8 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
           <div class="panel-sub">Group Financial Intelligence · SAR · Source: Master File</div>
         </div>
         <div class="grid-4" style="margin-bottom:20px;">
-          <div class="card"><div class="stat-val" style="font-size:20px;">20.8M</div><div class="stat-label">Group Revenue FY2025 (actual)</div><div class="stat-badge badge-ok">Bayraq + Mada Atlas</div></div>
-          <div class="card"><div class="stat-val" style="font-size:20px;">1.6M</div><div class="stat-label">Group Net Profit FY2025</div><div class="stat-badge badge-warn">Net of ZT Holding loss</div></div>
+          <div class="card"><div class="stat-val" style="font-size:20px;">20.8M</div><div class="stat-label">Group Revenue FY2025 (actual)</div><div class="stat-badge badge-ok">Bayraq + Mada Atlas</div><div class="stat-trend trend-up">&#x2191; 38% vs FY2024</div></div>
+          <div class="card"><div class="stat-val" style="font-size:20px;">1.6M</div><div class="stat-label">Group Net Profit FY2025</div><div class="stat-badge badge-warn">Net of ZT Holding loss</div><div class="stat-trend trend-up">&#x2191; First profitable year</div></div>
           <div class="card"><div class="stat-val">3</div><div class="stat-label">Entities with VAT Filings</div><div class="stat-badge badge-warn">7 missing</div></div>
           <div class="card"><div class="stat-val" style="color:#e05c5c;">6</div><div class="stat-label">Entities Missing Financials</div><div class="stat-badge badge-low">Action needed</div></div>
         </div>
@@ -959,10 +1040,10 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
           <div class="panel-sub">Active &amp; Pipeline · Source: PMO Master Tracker</div>
         </div>
         <div class="grid-4" style="margin-bottom:20px;">
-          <div class="card"><div class="stat-val">12</div><div class="stat-label">Total Projects</div></div>
+          <div class="card"><div class="stat-val">12</div><div class="stat-label">Total Projects</div><div class="stat-trend trend-up">&#x2191; +4 this quarter</div></div>
           <div class="card"><div class="stat-val" style="color:#48c78e;">5</div><div class="stat-label">Active / Awarded</div><div class="stat-badge badge-ok">In execution</div></div>
           <div class="card"><div class="stat-val" style="color:#f0832a;">6</div><div class="stat-label">Tender Evaluation</div><div class="stat-badge badge-warn">SAR 19M pipeline</div></div>
-          <div class="card"><div class="stat-val" style="font-size:18px;">12.2M</div><div class="stat-label">Active Portfolio (SAR)</div><div class="stat-badge badge-ok">Contracted</div></div>
+          <div class="card"><div class="stat-val" style="font-size:18px;">12.2M</div><div class="stat-label">Active Portfolio (SAR)</div><div class="stat-badge badge-ok">Contracted</div><div class="stat-trend trend-up">&#x2191; 18% vs Q4 2025</div></div>
         </div>
         <div class="card" style="margin-bottom:20px;">
           <div class="card-title">Project Portfolio — Mada Atlas · As of July 2026</div>
@@ -1014,10 +1095,10 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
           <div class="panel-sub">Contracts &amp; Risk Registry · Source: Legal Management File</div>
         </div>
         <div class="grid-4" style="margin-bottom:20px;">
-          <div class="card"><div class="stat-val">11</div><div class="stat-label">Total Contracts</div></div>
+          <div class="card"><div class="stat-val">11</div><div class="stat-label">Total Contracts</div><div class="stat-trend trend-up">&#x2191; +3 new FY2026</div></div>
           <div class="card"><div class="stat-val" style="color:#e05c5c;">1</div><div class="stat-label">Expiring This Week</div><div class="stat-badge badge-low">Office lease Jul 16</div></div>
           <div class="card"><div class="stat-val" style="color:#f0832a;">2</div><div class="stat-label">Active Disputes</div><div class="stat-badge badge-warn">Rent claim · Arbitration</div></div>
-          <div class="card"><div class="stat-val" style="font-size:18px;">53.7M</div><div class="stat-label">Total Active Value (SAR)</div><div class="stat-badge badge-ok">7 active contracts</div></div>
+          <div class="card"><div class="stat-val" style="font-size:18px;">53.7M</div><div class="stat-label">Total Active Value (SAR)</div><div class="stat-badge badge-ok">7 active contracts</div><div class="stat-trend trend-up">&#x2191; 12% vs prior year</div></div>
         </div>
         <div class="card" style="margin-bottom:20px;">
           <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(224,92,92,0.10);border:1px solid rgba(224,92,92,0.3);border-radius:8px;margin-bottom:16px;">
@@ -1218,6 +1299,9 @@ function launchApp(roleKey) {
   buildComplianceTable();
   buildKPIs();
   buildVault();
+  startSessionTimeout();
+  sendAuditLog(roleKey);
+  setTimeout(makeRowsExpandable, 600);
 
   // Wrap all tables for mobile horizontal scroll
   document.querySelectorAll('.zt-table').forEach(function(tbl) {
@@ -1230,7 +1314,7 @@ function launchApp(roleKey) {
   });
   initCharts();
   // Fetch live data in background
-  fetchLiveData().then(d => { liveData = d; applyLiveData(d); });
+  fetchLiveData().then(d => { liveData = d; applyLiveData(d); setTimeout(makeRowsExpandable, 200); });
 }
 
 function applyRoleNav(r) {
@@ -1273,6 +1357,9 @@ function toggleSidebar() {
 
 function signOut() {
   currentRole = null;
+  clearTimeout(_timeoutTimer);
+  clearInterval(_countdownTimer);
+  const tm = document.getElementById('timeout-modal'); if(tm) tm.classList.remove('active');
   document.getElementById('app').style.display='none';
   document.getElementById('login-screen').style.display='flex';
   document.getElementById('pwd-input').value='';
@@ -1662,6 +1749,162 @@ function vaultClick(entity, doc, key) {
   } else if (url !== null && url.trim()) {
     alert('Please enter a valid URL starting with http');
   }
+}
+
+
+// ── Session Timeout (30 min) ─────────────────────────────────────────────────
+const TIMEOUT_MS  = 30 * 60 * 1000; // 30 minutes
+const WARNING_SEC = 60;             // warn 60 s before
+let _timeoutTimer   = null;
+let _countdownTimer = null;
+let _countdownSec   = WARNING_SEC;
+
+function resetTimeout() {
+  // Hide modal
+  const modal = document.getElementById('timeout-modal');
+  if (modal) modal.classList.remove('active');
+  clearInterval(_countdownTimer);
+  clearTimeout(_timeoutTimer);
+  if (!currentRole) return;
+  _timeoutTimer = setTimeout(showTimeoutWarning, TIMEOUT_MS - WARNING_SEC * 1000);
+}
+
+function showTimeoutWarning() {
+  if (!currentRole) return;
+  const modal = document.getElementById('timeout-modal');
+  if (!modal) return;
+  _countdownSec = WARNING_SEC;
+  document.getElementById('timeout-countdown').textContent = _countdownSec;
+  modal.classList.add('active');
+  _countdownTimer = setInterval(function() {
+    _countdownSec--;
+    const el = document.getElementById('timeout-countdown');
+    if (el) el.textContent = _countdownSec;
+    if (_countdownSec <= 0) {
+      clearInterval(_countdownTimer);
+      modal.classList.remove('active');
+      signOut();
+    }
+  }, 1000);
+}
+
+function startSessionTimeout() {
+  clearTimeout(_timeoutTimer);
+  clearInterval(_countdownTimer);
+  _timeoutTimer = setTimeout(showTimeoutWarning, TIMEOUT_MS - WARNING_SEC * 1000);
+}
+
+// Reset on any user activity
+['mousemove','mousedown','keydown','touchstart','scroll'].forEach(function(evt) {
+  document.addEventListener(evt, function() {
+    if (currentRole) {
+      clearTimeout(_timeoutTimer);
+      clearInterval(_countdownTimer);
+      const modal = document.getElementById('timeout-modal');
+      if (modal && modal.classList.contains('active')) modal.classList.remove('active');
+      _timeoutTimer = setTimeout(showTimeoutWarning, TIMEOUT_MS - WARNING_SEC * 1000);
+    }
+  }, { passive: true });
+});
+
+// ── Audit Log ────────────────────────────────────────────────────────────────
+function sendAuditLog(role) {
+  const API = 'https://script.google.com/macros/s/AKfycbx065w3CUQvdrftb1eSu-_b6_e0x0yJyFSxSZmvEya3WefGHA97pyUkAqBsxA3tnvbJtw/exec';
+  if (!API || API.includes('YOUR')) return;
+  const payload = {
+    action: 'audit',
+    role: role,
+    label: (window.ROLES && window.ROLES[role]) ? window.ROLES[role].label : role,
+    timestamp: new Date().toISOString(),
+    userAgent: navigator.userAgent.slice(0, 120),
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
+  };
+  fetch(API, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  }).catch(function(){});
+}
+
+// ── Dark / Light Theme ────────────────────────────────────────────────────────
+function applyTheme(mode) {
+  const sun  = document.getElementById('theme-sun');
+  const moon = document.getElementById('theme-moon');
+  if (mode === 'light') {
+    document.body.classList.add('light-mode');
+    if (sun)  sun.style.display  = 'block';
+    if (moon) moon.style.display = 'none';
+  } else {
+    document.body.classList.remove('light-mode');
+    if (sun)  sun.style.display  = 'none';
+    if (moon) moon.style.display = 'block';
+  }
+}
+function toggleTheme() {
+  const isLight = document.body.classList.contains('light-mode');
+  const next = isLight ? 'dark' : 'light';
+  applyTheme(next);
+  try { localStorage.setItem('zt_theme', next); } catch(e){}
+}
+// Apply saved theme on load
+(function() {
+  try {
+    const saved = localStorage.getItem('zt_theme');
+    if (saved) applyTheme(saved);
+  } catch(e){}
+})();
+
+// ── Expandable Row Detail ────────────────────────────────────────────────────
+function toggleRowDetail(tr) {
+  // If already expanded, collapse
+  const next = tr.nextElementSibling;
+  if (next && next.classList.contains('row-detail-tr')) {
+    next.remove();
+    tr.classList.remove('row-detail-open');
+    return;
+  }
+  // Collapse any other open detail in same table
+  const table = tr.closest('table');
+  if (table) {
+    table.querySelectorAll('.row-detail-tr').forEach(function(r) { r.remove(); });
+    table.querySelectorAll('.row-detail-open').forEach(function(r) { r.classList.remove('row-detail-open'); });
+  }
+  tr.classList.add('row-detail-open');
+  // Build detail content from headers + cells
+  const headers = [];
+  const tbl = tr.closest('table');
+  if (tbl) {
+    tbl.querySelectorAll('thead th').forEach(function(th) { headers.push(th.textContent.trim()); });
+  }
+  const cells = tr.querySelectorAll('td');
+  const colCount = tr.closest('table') ? tr.closest('table').querySelector('thead tr').cells.length : cells.length;
+  let items = '';
+  cells.forEach(function(td, i) {
+    const label = headers[i] || ('Column ' + (i+1));
+    const val = td.textContent.trim() || '—';
+    if (val === '—' || !val) return;
+    items += '<div class="row-detail-item"><div class="row-detail-label">' + label + '</div><div class="row-detail-val">' + val + '</div></div>';
+  });
+  const detailTr = document.createElement('tr');
+  detailTr.className = 'row-detail-tr';
+  const td = document.createElement('td');
+  td.colSpan = colCount;
+  td.innerHTML = '<div class="row-detail-grid">' + items + '</div>';
+  detailTr.appendChild(td);
+  tr.parentNode.insertBefore(detailTr, tr.nextSibling);
+}
+
+// Make table rows expandable — runs after tables are built
+function makeRowsExpandable() {
+  document.querySelectorAll('.zt-table tbody').forEach(function(tbody) {
+    tbody.querySelectorAll('tr:not(.row-detail-tr)').forEach(function(tr) {
+      if (!tr.classList.contains('zt-expandable')) {
+        tr.classList.add('zt-expandable');
+        tr.addEventListener('click', function() { toggleRowDetail(this); });
+      }
+    });
+  });
 }
 
 </script>
