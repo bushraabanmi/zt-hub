@@ -71,7 +71,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 /* Gold right border */
 .login-brand-border { display:none; }
 .lb-year {
-  position:absolute; bottom:20px; left:0; right:0; text-align:center;
+  position:absolute; bottom:20px; left:24px;
   font-size:9.5px; letter-spacing:2.5px; color:rgba(202,164,133,0.25);
   font-family:'HacenMaghreb',sans-serif; font-weight:600; text-transform:uppercase;
   z-index:2;
@@ -269,7 +269,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
   .lb-stat-num { font-size:22px !important; opacity:1 !important; }
   .lb-stat-lbl { font-size:9px !important; }
 
-  .lb-year { display:none; }
+  .lb-year { display:block; position:absolute; bottom:16px; left:20px; text-align:left; }
 
   /* Form panel */
   .login-form-panel { flex:1; padding:28px 24px 80px; min-height:unset; }
@@ -422,6 +422,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
         <div class="lb-stat-lbl">Active Projects</div>
       </div>
     </div>
+    <div class="lb-year">2026</div>
   </div>
 
   <!-- Right form panel -->
@@ -451,7 +452,6 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
     </div>
 
     <!-- Hidden admin access -->
-    <span class="lb-year" style="position:absolute;bottom:20px;left:24px;text-align:left;">2026</span>
     <span class="admin-access" onclick="document.getElementById('admin-modal').classList.toggle('open')">Admin</span>
     <div class="admin-modal" id="admin-modal" style="position:absolute;bottom:50px;right:24px;">
       <input type="password" id="admin-pwd-input" placeholder="Administrator password" onkeydown="if(event.key==='Enter')doAdminLogin()">
