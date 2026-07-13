@@ -328,6 +328,10 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
   /* ── Prevent page-level horizontal scroll ── */
   body, html { overflow-x:hidden !important; max-width:100vw; }
   #app { overflow-x:hidden !important; }
+
+  /* ── Org chart: swap horizontal tree for compact vertical list on mobile ── */
+  #org-scroll-wrap { display: none !important; }
+  .org-mobile-tree { display: block !important; }
 }
 
 /* ═══════════════ APP SHELL ═══════════════ */
@@ -429,6 +433,19 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .ov-chart-card:hover { background:rgba(202,164,133,0.08); border-color:rgba(202,164,133,0.3); }
 
 /* ── Org Chart ── */
+/* ── Mobile compact org tree (hidden on desktop) ── */
+.org-mobile-tree { display:none; }
+.omt-children { padding-left:16px; margin-left:12px; border-left:1px solid rgba(202,164,133,0.2); margin-top:2px; }
+.omt-branch { position:relative; padding:6px 0 2px; }
+.omt-branch::before { content:''; position:absolute; left:-16px; top:18px; width:12px; height:1px; background:rgba(202,164,133,0.2); }
+.omt-node { padding:8px 12px; border-radius:8px; border:1px solid rgba(202,164,133,0.15); background:rgba(255,253,244,0.03); }
+.omt-root { background:rgba(202,164,133,0.10); border-color:rgba(202,164,133,0.4); margin-bottom:4px; }
+.omt-l1 { background:rgba(3,34,64,0.45); border-color:rgba(202,164,133,0.25); }
+.omt-l2 { background:rgba(255,253,244,0.03); border-color:rgba(202,164,133,0.15); }
+.omt-l3 { background:rgba(255,253,244,0.02); border-color:rgba(202,164,133,0.10); }
+.omt-name { font-size:13px; font-weight:700; color:rgba(255,253,244,0.9); margin-bottom:2px; }
+.omt-meta { font-size:11px; color:rgba(202,164,133,0.6); }
+
 .org-node { border:1px solid rgba(202,164,133,0.25); border-radius:8px; padding:10px 14px; text-align:center; background:rgba(255,253,244,0.04); min-width:120px; position:relative; z-index:1; }
 .org-node-root { background:rgba(202,164,133,0.12); border-color:rgba(202,164,133,0.5); }
 .org-node-l1 { background:rgba(3,34,64,0.5); border-color:rgba(202,164,133,0.3); }
@@ -677,6 +694,60 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
                 </div><!-- end level 1 row -->
               </div>
             </div><!-- end org chart -->
+
+            <!-- ── MOBILE: compact vertical tree (hidden on desktop) ── -->
+            <div class="org-mobile-tree">
+              <!-- Root -->
+              <div class="omt-node omt-root">
+                <div class="omt-name">ZT Group PK</div>
+                <div class="omt-meta">Pakistan · Holding · 100%</div>
+              </div>
+              <div class="omt-children">
+                <!-- Branch: ZT Holding KSA -->
+                <div class="omt-branch">
+                  <div class="omt-node omt-l1">
+                    <div class="omt-name">ZT Holding KSA</div>
+                    <div class="omt-meta">Saudi Arabia · Holding · 100%</div>
+                  </div>
+                  <div class="omt-children">
+                    <!-- Mada Atlas -->
+                    <div class="omt-branch">
+                      <div class="omt-node omt-l2">
+                        <div class="omt-name">Mada Atlas Contracting</div>
+                        <div class="omt-meta">KSA · Contracting · 80%</div>
+                      </div>
+                      <div class="omt-children">
+                        <div class="omt-branch">
+                          <div class="omt-node omt-l3"><div class="omt-name">Bayraq Al Maadin</div><div class="omt-meta">KSA · Industrial · 100%</div></div>
+                        </div>
+                        <div class="omt-branch">
+                          <div class="omt-node omt-l3"><div class="omt-name">Amrak Furnished Apts</div><div class="omt-meta">KSA · Hospitality · 100%</div></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="omt-branch">
+                      <div class="omt-node omt-l2"><div class="omt-name">Wahat Al Dahab</div><div class="omt-meta">KSA · Trading · 75%</div></div>
+                    </div>
+                    <div class="omt-branch">
+                      <div class="omt-node omt-l2"><div class="omt-name">Saih Logistics</div><div class="omt-meta">KSA · Logistics · 50%</div></div>
+                    </div>
+                    <div class="omt-branch">
+                      <div class="omt-node omt-l2"><div class="omt-name">Altoz Petroleum</div><div class="omt-meta">KSA · Petroleum · 99%</div></div>
+                    </div>
+                    <div class="omt-branch">
+                      <div class="omt-node omt-l2"><div class="omt-name">UTN</div><div class="omt-meta">KSA · Trading · 100%</div></div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Branch: Techgenix -->
+                <div class="omt-branch">
+                  <div class="omt-node omt-l1">
+                    <div class="omt-name">Techgenix</div>
+                    <div class="omt-meta">Pakistan · Technology · 100%</div>
+                  </div>
+                </div>
+              </div>
+            </div><!-- end mobile tree -->
 
             <!-- Sector chart stays below -->
             <div style="margin-top:24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
