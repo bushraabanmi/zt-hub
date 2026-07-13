@@ -333,13 +333,12 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
   #org-scroll-wrap { display: none !important; }
   .org-mobile-tree { display: block !important; }
 
-  /* Topbar: hide date, compress */
+  /* Topbar: hide date + search, keep theme btn + role badge */
   .topbar-date { display:none !important; }
-  .topbar-right { gap:5px !important; flex-shrink:1 !important; overflow:visible !important; }
-  .search-input { width:90px !important; }
-  .search-input:focus { width:130px !important; }
+  .search-wrap { display:none !important; }
+  .topbar-right { gap:6px !important; flex-shrink:0 !important; overflow:hidden !important; padding-right:12px !important; }
   .topbar-role { font-size:8px !important; padding:3px 6px !important; }
-  .theme-btn { width:28px !important; height:28px !important; margin-right:2px !important; flex-shrink:0 !important; }
+  .theme-btn { width:30px !important; height:30px !important; margin-right:0 !important; flex-shrink:0 !important; overflow:visible !important; }
 
   /* Overview: stack sector chart + entity list vertically */
   .sector-chart-outer { flex-direction:column !important; gap:12px !important; }
