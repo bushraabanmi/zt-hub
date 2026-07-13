@@ -229,44 +229,75 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 
 /* Mobile: hide brand panel */
 @media (max-width:768px) {
-  #login-screen { flex-direction:column; overflow-y:auto; }
-
-  /* Brand panel becomes compact top header */
-  .login-brand {
-    flex:0 0 auto;
-    padding:32px 24px 24px;
-    background: linear-gradient(180deg, #031a2e 0%, #020c18 100%);
-    align-items:center; text-align:center;
+  #login-screen {
+    flex-direction:column;
+    overflow-y:auto;
+    overflow-x:hidden;
   }
-  .login-brand::after { display:none; }
-  .login-brand-border { display:none; }
 
-  .lb-top { text-align:center; }
-  .lb-logo img { width:64px; }
+  /* Brand panel: compact top strip — kill all animations and masks */
+  .login-brand {
+    flex:0 0 auto !important;
+    display:flex !important;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding:36px 24px 20px;
+    background:#031a2e !important;
+    position:relative;
+    min-height:unset;
+    overflow:visible;
+  }
+  /* Disable pseudo-elements that can block content */
+  .login-brand::before,
+  .login-brand::after { display:none !important; }
+  .login-brand-border { display:none !important; }
 
-  .lb-slogan { font-size:9px; margin-top:10px; }
+  /* Kill all animations on mobile — just show content instantly */
+  .lb-top, .lb-mid, .lb-stats,
+  .lb-logo img,
+  .lb-stats .lb-stat:nth-child(1) .lb-stat-num,
+  .lb-stats .lb-stat:nth-child(2) .lb-stat-num,
+  .lb-stats .lb-stat:nth-child(3) .lb-stat-num {
+    animation:none !important;
+    opacity:1 !important;
+    transform:none !important;
+  }
 
-  /* Hide the long description on mobile */
-  .lb-mid { display:none; }
+  .lb-top { text-align:center; position:relative; z-index:1; }
+  .lb-logo img { width:60px !important; display:inline-block !important; }
 
-  /* Stats row — compact */
+  .lb-slogan {
+    font-size:8.5px;
+    margin-top:10px;
+    opacity:1 !important;
+    color:rgba(202,164,133,0.5);
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+
+  /* Hide long description */
+  .lb-mid { display:none !important; }
+
+  /* Stats row compact */
   .lb-stats {
+    display:flex !important;
+    justify-content:center;
     border-top:1px solid rgba(202,164,133,0.12);
     padding-top:16px;
     margin-top:16px;
-    justify-content:center;
-    gap:0;
     width:100%;
+    opacity:1 !important;
   }
-  .lb-stat { padding:0 20px; text-align:center; }
-  .lb-stat-num { font-size:22px; }
-  .lb-stat-lbl { font-size:9px; }
+  .lb-stat { padding:0 18px; text-align:center; }
+  .lb-stat-num { font-size:22px !important; opacity:1 !important; }
+  .lb-stat-lbl { font-size:9px !important; }
 
-  /* Hide 2026 bottom label on mobile */
   .lb-year { display:none; }
 
-  /* Form panel fills rest */
-  .login-form-panel { flex:1; padding:32px 24px; }
+  /* Form panel */
+  .login-form-panel { flex:1; padding:28px 24px 80px; min-height:unset; }
+  .login-form-panel::before { display:none; }
   .login-card { max-width:100%; }
 }
 
