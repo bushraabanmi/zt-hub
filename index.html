@@ -365,11 +365,11 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 
 /* MAIN */
 .main-area { flex:1; display:flex; flex-direction:column; overflow:hidden; background:#051929; }
-.topbar { height:60px; flex-shrink:0; background:#030f1c; border-bottom:1px solid rgba(202,164,133,0.10); display:flex; align-items:center; justify-content:space-between; padding:0 28px; }
+.topbar { height:60px; flex-shrink:0; background:#030f1c; border-bottom:1px solid rgba(202,164,133,0.10); display:flex; align-items:center; justify-content:space-between; padding:0 24px 0 28px; overflow:visible; }
 .topbar-left { display:flex; flex-direction:column; gap:2px; }
 .topbar-group { font-size:11px; color:rgba(255,253,244,0.25); letter-spacing:0.3px; }
 .topbar-title { font-size:13px; font-weight:700; color:rgba(255,253,244,0.9); letter-spacing:0.3px; }
-.topbar-right { display:flex; align-items:center; gap:12px; }
+.topbar-right { display:flex; align-items:center; gap:10px; flex-shrink:0; }
 .topbar-role { font-size:9px; letter-spacing:2px; color:var(--camel); background:rgba(202,164,133,0.12); border:1px solid rgba(202,164,133,0.2); border-radius:4px; padding:4px 10px; text-transform:uppercase; }
 .topbar-date { font-size:10px; color:rgba(255,253,244,0.25); }
 .content-area { flex:1; overflow-y:auto; padding:28px 32px; }
@@ -522,7 +522,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .timeout-stay { background:rgba(202,164,133,0.15); border:1px solid rgba(202,164,133,0.4); color:var(--camel); border-radius:8px; padding:10px 26px; font-size:13px; cursor:pointer; font-family:inherit; transition:background .15s; }
 .timeout-stay:hover { background:rgba(202,164,133,0.25); }
 /* ── Theme toggle ── */
-.theme-btn { background:rgba(255,253,244,0.06); border:1px solid rgba(202,164,133,0.2); border-radius:8px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,253,244,0.5); transition:all .15s; flex-shrink:0; }
+.theme-btn { background:rgba(255,253,244,0.06); border:1px solid rgba(202,164,133,0.2); border-radius:8px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,253,244,0.5); transition:all .15s; flex-shrink:0; margin-right:4px; }
 .theme-btn:hover { color:var(--camel); border-color:rgba(202,164,133,0.4); }
 /* ── Trend indicators ── */
 .stat-trend { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:8px; margin-top:5px; letter-spacing:.3px; }
