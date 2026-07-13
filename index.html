@@ -476,6 +476,40 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .org-vline-top { width:1px; height:20px; background:rgba(202,164,133,0.3); margin:0 auto; }
 .org-hline-full { position:absolute; top:0; left:10%; right:10%; height:1px; background:rgba(202,164,133,0.25); }
 .org-leaf-col { display:flex; flex-direction:column; align-items:center; }
+
+/* ── Compliance Calendar ── */
+.comp-filter-btn { background:rgba(255,253,244,0.06); border:1px solid rgba(202,164,133,0.18); border-radius:14px; padding:4px 12px; font-size:11px; color:rgba(255,253,244,0.5); cursor:pointer; font-family:inherit; transition:all .15s; }
+.comp-filter-btn:hover { color:rgba(255,253,244,0.8); border-color:rgba(202,164,133,0.4); }
+.comp-filter-btn.active { background:rgba(202,164,133,0.15); border-color:rgba(202,164,133,0.5); color:var(--camel); }
+.comp-tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:10px; font-weight:700; letter-spacing:.5px; }
+.comp-overdue { background:rgba(224,92,92,0.18); color:#e05c5c; }
+.comp-urgent  { background:rgba(240,131,42,0.18); color:#f0832a; }
+.comp-upcoming{ background:rgba(224,192,80,0.15); color:#e0c050; }
+.comp-sched   { background:rgba(255,253,244,0.07); color:rgba(255,253,244,0.35); }
+/* ── KPI Tracker ── */
+.kpi-list { display:flex; flex-direction:column; gap:14px; margin-top:4px; }
+.kpi-item { }
+.kpi-label { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:5px; }
+.kpi-name  { font-size:12px; color:rgba(255,253,244,0.65); }
+.kpi-vals  { font-size:11px; color:rgba(202,164,133,0.7); }
+.kpi-bar-wrap { height:6px; background:rgba(255,253,244,0.07); border-radius:3px; overflow:hidden; }
+.kpi-bar-fill { height:100%; border-radius:3px; background:var(--camel); opacity:.8; transition:width .6s; }
+.kpi-bar-fill.red    { background:#e05c5c; }
+.kpi-bar-fill.yellow { background:#e0c050; }
+.kpi-bar-fill.green  { background:#5cc898; }
+/* ── Document Vault ── */
+.vault-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+.vault-card { background:rgba(255,253,244,0.03); border:1px solid rgba(202,164,133,0.12); border-radius:12px; padding:16px; }
+.vault-entity-name { font-size:13px; font-weight:700; color:var(--white); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.vault-entity-flag { font-size:16px; }
+.vault-docs { display:flex; flex-direction:column; gap:6px; }
+.vault-doc-row { display:flex; align-items:center; gap:8px; padding:7px 10px; border-radius:8px; background:rgba(255,253,244,0.03); border:1px solid rgba(202,164,133,0.08); cursor:pointer; transition:background .15s; }
+.vault-doc-row:hover { background:rgba(202,164,133,0.08); border-color:rgba(202,164,133,0.25); }
+.vault-doc-icon { font-size:13px; flex-shrink:0; }
+.vault-doc-label { font-size:12px; color:rgba(255,253,244,0.65); flex:1; }
+.vault-doc-status { font-size:10px; font-weight:700; padding:2px 7px; border-radius:8px; white-space:nowrap; }
+.vault-doc-linked { background:rgba(92,200,152,0.15); color:#5cc898; }
+.vault-doc-empty  { background:rgba(255,253,244,0.06); color:rgba(255,253,244,0.3); }
 </style>
 </head>
 <body>
@@ -575,6 +609,19 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><path d="M4 2h7l2 2v9a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M4 6h7M4 9h5"/></svg></div>
         Legal
         <span class="nav-badge active" id="badge-legal" title="Office lease expires in 3 days"></span>
+      </div>
+      <div class="nav-group-label">Governance</div>
+      <div class="nav-item" onclick="showPanel('compliance')" data-panel="compliance" data-requires="compliance">
+        <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><rect x="2" y="1" width="11" height="13" rx="1"/><path d="M5 5h5M5 8h5M5 11h3"/></svg></div>
+        Compliance
+      </div>
+      <div class="nav-item" onclick="showPanel('kpi')" data-panel="kpi" data-requires="kpi">
+        <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><polyline points="2,11 5,7 8,9 13,3"/><path d="M11 3h2v2"/></svg></div>
+        KPI Tracker
+      </div>
+      <div class="nav-item" onclick="showPanel('vault')" data-panel="vault" data-requires="vault">
+        <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><path d="M2 4.5A1.5 1.5 0 013.5 3h3L8 4.5h3.5A1.5 1.5 0 0113 6v5a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 012 11V4.5z"/></svg></div>
+        Document Vault
       </div>
       <div class="nav-group-label">Intelligence</div>
       <div class="nav-item" onclick="showPanel('diagnostic')" data-panel="diagnostic" data-requires="diagnostic">
@@ -1028,17 +1075,80 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
         </div>
       </div>
 
+
+      <!-- ── COMPLIANCE CALENDAR PANEL ── -->
+      <div class="panel" id="panel-compliance">
+        <div class="panel-header">
+          <div class="panel-title">Compliance Calendar</div>
+          <div class="panel-sub">Regulatory deadlines &middot; KSA entities &middot; ZATCA &middot; GOSI &middot; CR &middot; Zakat</div>
+        </div>
+        <div class="grid-4" style="margin-bottom:20px;">
+          <div class="card"><div class="stat-val" style="color:#e05c5c;" id="comp-overdue">—</div><div class="stat-label">Overdue</div></div>
+          <div class="card"><div class="stat-val" style="color:#f0832a;" id="comp-urgent">—</div><div class="stat-label">Due in 30 days</div></div>
+          <div class="card"><div class="stat-val" style="color:#e0c050;" id="comp-upcoming">—</div><div class="stat-label">Due in 90 days</div></div>
+          <div class="card"><div class="stat-val" id="comp-total">—</div><div class="stat-label">Total Obligations</div></div>
+        </div>
+        <div class="card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+            <div class="card-title" style="margin-bottom:0;">Filing Deadlines</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="comp-filter-btn active" onclick="filterCompliance('all')" data-filter="all">All</button>
+              <button class="comp-filter-btn" onclick="filterCompliance('overdue')" data-filter="overdue">Overdue</button>
+              <button class="comp-filter-btn" onclick="filterCompliance('urgent')" data-filter="urgent">Urgent</button>
+              <button class="comp-filter-btn" onclick="filterCompliance('upcoming')" data-filter="upcoming">Upcoming</button>
+              <button class="comp-filter-btn" onclick="filterCompliance('scheduled')" data-filter="scheduled">Scheduled</button>
+            </div>
+          </div>
+          <table class="zt-table">
+            <thead><tr><th>Entity</th><th>Obligation</th><th>Period</th><th>Deadline</th><th>Status</th><th>Days Left</th></tr></thead>
+            <tbody id="comp-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ── KPI TRACKER PANEL ── -->
+      <div class="panel" id="panel-kpi">
+        <div class="panel-header">
+          <div class="panel-title">KPI Tracker</div>
+          <div class="panel-sub">Target vs. Actual &middot; FY2026 &middot; Source: Master File &amp; PMO</div>
+        </div>
+        <div class="grid-3" style="margin-bottom:20px;">
+          <div class="card"><div class="stat-val">46%</div><div class="stat-label">Revenue Target (H1 2026)</div></div>
+          <div class="card"><div class="stat-val">75%</div><div class="stat-label">Projects On Schedule</div></div>
+          <div class="card"><div class="stat-val" style="color:#e05c5c;">65%</div><div class="stat-label">Compliance Rate</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="card">
+            <div class="card-title">Financial KPIs</div>
+            <div class="kpi-list" id="kpi-financial"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Operational KPIs</div>
+            <div class="kpi-list" id="kpi-operational"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── DOCUMENT VAULT PANEL ── -->
+      <div class="panel" id="panel-vault">
+        <div class="panel-header">
+          <div class="panel-title">Document Vault</div>
+          <div class="panel-sub">Key documents per entity &middot; Google Drive linked &middot; Click any slot to add or open</div>
+        </div>
+        <div id="vault-grid" class="vault-grid"></div>
+      </div>
+
     </div><!-- end content-area -->
   </div><!-- end main-area -->
 </div><!-- end app -->
 
 <script>
 const ROLES = {
-  ceo:      { pass:'CEO-cheqm8-2026',      label:'CEO',           badge:'CEO',      panels:['overview','finance','projects','legal','diagnostic'], viewOnly:true },
-  admin:    { pass:'Ciel-King-975-VII',    label:'Administrator', badge:'ADMIN',    panels:['overview','finance','projects','legal','diagnostic'], viewOnly:false },
-  finance:  { pass:'FIN-cheqm8-1742',  label:'Finance Team',  badge:'FINANCE',  panels:['overview','finance','diagnostic'], viewOnly:false },
-  projects: { pass:'PRO-cheqm8-2023', label:'Projects Team', badge:'PROJECTS', panels:['overview','projects','diagnostic'], viewOnly:false },
-  legal:    { pass:'LEG-cheqm8-1724',    label:'Legal Team',    badge:'LEGAL',    panels:['overview','legal','diagnostic'], viewOnly:false },
+  ceo:      { pass:'CEO-cheqm8-2026',      label:'CEO',           badge:'CEO',      panels:['overview','finance','projects','legal','compliance','kpi','vault','diagnostic'], viewOnly:true },
+  admin:    { pass:'Ciel-King-975-VII',    label:'Administrator', badge:'ADMIN',    panels:['overview','finance','projects','legal','compliance','kpi','vault','diagnostic'], viewOnly:false },
+  finance:  { pass:'FIN-cheqm8-1742',  label:'Finance Team',  badge:'FINANCE',  panels:['overview','finance','compliance','kpi','diagnostic'], viewOnly:false },
+  projects: { pass:'PRO-cheqm8-2023', label:'Projects Team', badge:'PROJECTS', panels:['overview','projects','compliance','kpi','diagnostic'], viewOnly:false },
+  legal:    { pass:'LEG-cheqm8-1724',    label:'Legal Team',    badge:'LEGAL',    panels:['overview','legal','compliance','vault','diagnostic'], viewOnly:false },
 };
 
 let selectedRole = null;
@@ -1105,6 +1215,9 @@ function launchApp(roleKey) {
   if (r.viewOnly) document.getElementById('viewonly-banner').style.display='block';
   applyRoleNav(r);
   showPanel('overview');
+  buildComplianceTable();
+  buildKPIs();
+  buildVault();
 
   // Wrap all tables for mobile horizontal scroll
   document.querySelectorAll('.zt-table').forEach(function(tbl) {
@@ -1135,7 +1248,7 @@ function showPanel(id) {
   if (panel) panel.classList.add('active');
   const nav = document.querySelector('.nav-item[data-panel="'+id+'"]');
   if (nav) nav.classList.add('active');
-  const titles = {overview:'Group Overview',finance:'Finance',projects:'Projects',legal:'Legal',diagnostic:'Data Diagnostic'};
+  const titles = {overview:'Group Overview',finance:'Finance',projects:'Projects',legal:'Legal',compliance:'Compliance Calendar',kpi:'KPI Tracker',vault:'Document Vault',diagnostic:'Data Diagnostic'};
   document.getElementById('topbar-title').textContent = titles[id] || id;
   // Auto-close sidebar on mobile + reset scroll position
   if (window.innerWidth <= 768) {
@@ -1390,6 +1503,166 @@ showPanel = function(id) {
     // Keep search active — rows already filtered
   }
 };
+
+
+// ── Compliance Calendar ───────────────────────────────────────────────────────
+const COMPLIANCE = [
+  { entity:'All KSA Entities', type:'GOSI Contribution',  period:'Jul 2026', deadline:'2026-07-15' },
+  { entity:'Bayraq Al Maadin', type:'VAT Filing (Q2)',     period:'Q2 2026',  deadline:'2026-07-31' },
+  { entity:'Mada Atlas',       type:'VAT Filing (Q2)',     period:'Q2 2026',  deadline:'2026-07-31' },
+  { entity:'ZT Holding KSA',   type:'VAT Filing (Q2)',     period:'Q2 2026',  deadline:'2026-07-31' },
+  { entity:'ZT Holding KSA',   type:'CR Renewal',          period:'FY2026',   deadline:'2026-08-12' },
+  { entity:'All KSA Entities', type:'GOSI Contribution',  period:'Aug 2026', deadline:'2026-08-15' },
+  { entity:'Bayraq Al Maadin', type:'CR Renewal',          period:'FY2026',   deadline:'2026-09-05' },
+  { entity:'Mada Atlas',       type:'Municipal License',   period:'FY2026',   deadline:'2026-09-15' },
+  { entity:'All KSA Entities', type:'GOSI Contribution',  period:'Sep 2026', deadline:'2026-09-15' },
+  { entity:'Bayraq Al Maadin', type:'VAT Filing (Q3)',     period:'Q3 2026',  deadline:'2026-10-31' },
+  { entity:'Mada Atlas',       type:'VAT Filing (Q3)',     period:'Q3 2026',  deadline:'2026-10-31' },
+  { entity:'ZT Holding KSA',   type:'VAT Filing (Q3)',     period:'Q3 2026',  deadline:'2026-10-31' },
+  { entity:'Mada Atlas',       type:'CR Renewal',          period:'FY2026',   deadline:'2026-11-20' },
+  { entity:'Bayraq Al Maadin', type:'VAT Filing (Q4)',     period:'Q4 2026',  deadline:'2027-01-31' },
+  { entity:'Mada Atlas',       type:'VAT Filing (Q4)',     period:'Q4 2026',  deadline:'2027-01-31' },
+  { entity:'ZT Holding KSA',   type:'VAT Filing (Q4)',     period:'Q4 2026',  deadline:'2027-01-31' },
+  { entity:'Bayraq Al Maadin', type:'Zakat Return',        period:'FY2026',   deadline:'2027-03-31' },
+  { entity:'Mada Atlas',       type:'Zakat Return',        period:'FY2026',   deadline:'2027-03-31' },
+  { entity:'ZT Holding KSA',   type:'Zakat Return',        period:'FY2026',   deadline:'2027-03-31' },
+  { entity:'All KSA Entities', type:'Annual Audit',        period:'FY2026',   deadline:'2027-03-31' },
+  { entity:'All KSA Entities', type:'Zakat Return (OVERDUE)', period:'FY2025', deadline:'2026-03-31', forceOverdue:true },
+  { entity:'Bayraq / Mada',    type:'Annual Audit (OVERDUE)',  period:'FY2025', deadline:'2026-03-31', forceOverdue:true },
+];
+
+function compStatus(dlStr, force) {
+  if (force) return 'overdue';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d = new Date(dlStr + 'T00:00:00');
+  const days = Math.round((d - today) / 86400000);
+  if (days < 0)  return 'overdue';
+  if (days <= 30) return 'urgent';
+  if (days <= 90) return 'upcoming';
+  return 'scheduled';
+}
+function compDays(dlStr, force) {
+  if (force) return '—';
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d = new Date(dlStr + 'T00:00:00');
+  const days = Math.round((d - today) / 86400000);
+  if (days < 0) return 'Overdue';
+  if (days === 0) return 'Today';
+  return days + 'd';
+}
+function fmtDl(s) {
+  return new Date(s + 'T00:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+}
+function stTag(st) {
+  const labels = {overdue:'OVERDUE',urgent:'URGENT',upcoming:'UPCOMING',scheduled:'SCHEDULED'};
+  const cls    = {overdue:'comp-overdue',urgent:'comp-urgent',upcoming:'comp-upcoming',scheduled:'comp-sched'};
+  return '<span class="comp-tag ' + cls[st] + '">' + labels[st] + '</span>';
+}
+function buildComplianceTable() {
+  let overdue=0, urgent=0, upcoming=0;
+  COMPLIANCE.forEach(c => {
+    const s = compStatus(c.deadline, c.forceOverdue);
+    if (s==='overdue') overdue++;
+    else if (s==='urgent') urgent++;
+    else if (s==='upcoming') upcoming++;
+  });
+  const el = id => document.getElementById(id);
+  if (el('comp-overdue'))  el('comp-overdue').textContent  = overdue;
+  if (el('comp-urgent'))   el('comp-urgent').textContent   = urgent;
+  if (el('comp-upcoming')) el('comp-upcoming').textContent = upcoming;
+  if (el('comp-total'))    el('comp-total').textContent    = COMPLIANCE.length;
+  renderCompTable('all');
+}
+function renderCompTable(filter) {
+  const tbody = document.getElementById('comp-table-body');
+  if (!tbody) return;
+  const sorted = [...COMPLIANCE].sort((a,b) => new Date(a.deadline) - new Date(b.deadline));
+  tbody.innerHTML = sorted.map(c => {
+    const st = compStatus(c.deadline, c.forceOverdue);
+    if (filter !== 'all' && st !== filter) return '';
+    return '<tr><td>' + c.entity + '</td><td>' + c.type + '</td><td>' + c.period + '</td><td>' +
+           fmtDl(c.deadline) + '</td><td>' + stTag(st) + '</td><td style="font-size:11px;color:rgba(255,253,244,0.45);">' +
+           compDays(c.deadline, c.forceOverdue) + '</td></tr>';
+  }).join('');
+}
+function filterCompliance(f) {
+  document.querySelectorAll('.comp-filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+  renderCompTable(f);
+}
+
+// ── KPI Tracker ───────────────────────────────────────────────────────────────
+const KPIS = {
+  financial: [
+    { name:'Group Revenue FY2026',      target:'SAR 25M',  actual:'SAR 11.5M', pct:46,  color:'yellow' },
+    { name:'Bayraq Al Maadin Revenue',  target:'SAR 20M',  actual:'SAR 10.3M', pct:51,  color:'yellow' },
+    { name:'Mada Atlas Revenue',        target:'SAR 3M',   actual:'SAR 0.9M',  pct:30,  color:'red' },
+    { name:'Net Profit Margin',         target:'12%',      actual:'7.7%',      pct:64,  color:'yellow' },
+    { name:'VAT Compliance Rate',       target:'100%',     actual:'65%',       pct:65,  color:'red' },
+  ],
+  operational: [
+    { name:'Active Projects',           target:'5',    actual:'2',    pct:40,  color:'red' },
+    { name:'Projects On Schedule',      target:'90%',  actual:'75%',  pct:83,  color:'yellow' },
+    { name:'Awarded Tenders',           target:'4',    actual:'3',    pct:75,  color:'yellow' },
+    { name:'Contract Renewal Rate',     target:'95%',  actual:'85%',  pct:89,  color:'yellow' },
+    { name:'Data Completeness',         target:'100%', actual:'62%',  pct:62,  color:'red' },
+    { name:'Legal Disputes (target: 0)',target:'0',    actual:'2',    pct:0,   color:'red' },
+  ],
+};
+function buildKPIs() {
+  ['financial','operational'].forEach(key => {
+    const el = document.getElementById('kpi-' + key);
+    if (!el) return;
+    el.innerHTML = KPIS[key].map(k =>
+      '<div class="kpi-item">' +
+      '<div class="kpi-label"><span class="kpi-name">' + k.name + '</span>' +
+      '<span class="kpi-vals">' + k.actual + ' / ' + k.target + '</span></div>' +
+      '<div class="kpi-bar-wrap"><div class="kpi-bar-fill ' + k.color + '" style="width:' + k.pct + '%"></div></div>' +
+      '</div>'
+    ).join('');
+  });
+}
+
+// ── Document Vault ────────────────────────────────────────────────────────────
+const VAULT_ENTITIES = [
+  { name:'Bayraq Al Maadin', flag:'\u{1F1F8}\u{1F1E6}', docs:['Commercial Registration (CR)','VAT Certificate','Municipal License','Financial Statements FY2025','Employment Contracts'] },
+  { name:'Mada Atlas',       flag:'\u{1F1F8}\u{1F1E6}', docs:['Commercial Registration (CR)','VAT Certificate','JV Agreement (80/20)','Financial Statements FY2025','Project Contracts'] },
+  { name:'ZT Holding KSA',   flag:'\u{1F1F8}\u{1F1E6}', docs:['Commercial Registration (CR)','VAT Certificate','Office Lease Agreement','Financial Statements FY2025','Board Resolutions'] },
+  { name:'ZT Global',        flag:'\u{1F1E6}\u{1F1EA}', docs:['Trade License (Dubai)','MOA / AOA','Financial Statements','Office Lease','Key Contracts'] },
+  { name:'Techgenix',        flag:'\u{1F1F5}\u{1F1F0}', docs:['Company Registration','NTN Certificate','Financial Statements','Key Contracts'] },
+  { name:'Altoz Petroleum',  flag:'\u{1F1F8}\u{1F1E6}', docs:['Commercial Registration (CR)','Petroleum License','Acquisition Documents (SAR 416M)','Financial Statements'] },
+];
+function vaultKey(entity, doc) { return 'vault_' + (entity+doc).replace(/[^a-zA-Z0-9]/g,'_'); }
+function buildVault() {
+  const grid = document.getElementById('vault-grid');
+  if (!grid) return;
+  grid.innerHTML = VAULT_ENTITIES.map(e => {
+    const docsHtml = e.docs.map(d => {
+      const k = vaultKey(e.name, d);
+      const url = localStorage.getItem(k);
+      return '<div class="vault-doc-row" onclick="vaultClick(\'' + e.name.replace(/'/g,"\'") + '\',\'' + d.replace(/'/g,"\'") + '\',\'' + k + '\')">' +
+             '<span class="vault-doc-icon">' + (url ? '\u{1F4C4}' : '+') + '</span>' +
+             '<span class="vault-doc-label">' + d + '</span>' +
+             '<span class="vault-doc-status ' + (url ? 'vault-doc-linked' : 'vault-doc-empty') + '">' + (url ? 'LINKED' : 'ADD') + '</span>' +
+             '</div>';
+    }).join('');
+    return '<div class="vault-card"><div class="vault-entity-name"><span class="vault-entity-flag">' + e.flag + '</span>' + e.name + '</div><div class="vault-docs">' + docsHtml + '</div></div>';
+  }).join('');
+}
+function vaultClick(entity, doc, key) {
+  const existing = localStorage.getItem(key);
+  if (existing) {
+    if (confirm('"' + doc + '" is linked.\nOpen document? (Cancel = replace link)')) {
+      window.open(existing, '_blank'); return;
+    }
+  }
+  const url = prompt('Paste Google Drive link for:\n' + entity + ' — ' + doc);
+  if (url && url.trim().startsWith('http')) {
+    localStorage.setItem(key, url.trim());
+    buildVault();
+  } else if (url !== null && url.trim()) {
+    alert('Please enter a valid URL starting with http');
+  }
+}
 
 </script>
 </body>
