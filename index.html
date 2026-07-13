@@ -568,7 +568,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .row-detail-label { font-size:10px; color:rgba(202,164,133,0.6); text-transform:uppercase; letter-spacing:.5px; margin-bottom:3px; }
 .row-detail-val { font-size:13px; color:rgba(255,253,244,0.85); font-weight:600; }
 /* ── Light mode ── */
-body.light-mode { --navy:#f0ede8; --white:#1a1510; --camel:#8B6840; background:#f0ede8; }
+body.light-mode { --navy:#f0ede8; --white:#1a1510; --camel:#8B6840; --white-06:rgba(26,21,16,0.06); --white-12:rgba(26,21,16,0.12); --white-40:rgba(26,21,16,0.40); --white-70:rgba(26,21,16,0.70); background:#f0ede8; }
 body.light-mode .sidebar { background:#1a1510; }
 body.light-mode .sidebar .nav-item { color:rgba(255,253,244,0.45); }
 body.light-mode .sidebar .nav-item.active { color:#CAA485; background:rgba(202,164,133,0.12); }
@@ -672,6 +672,34 @@ body.light-mode .omt-node { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0
 body.light-mode .omt-name { color:rgba(26,21,16,0.9); }
 body.light-mode .omt-meta { color:rgba(26,21,16,0.45); }
 body.light-mode .prog-fill { opacity:0.9; }
+/* ── Additional class overrides ── */
+body.light-mode .tree-child-name { color:rgba(26,21,16,0.75) !important; }
+body.light-mode .tree-entity-name { color:rgba(26,21,16,0.9) !important; }
+body.light-mode .tree-entity-meta { color:rgba(26,21,16,0.4) !important; }
+body.light-mode .tree-entity { background:rgba(0,0,0,0.03) !important; border-color:rgba(0,0,0,0.08) !important; }
+body.light-mode .diag-field { color:rgba(26,21,16,0.75) !important; }
+body.light-mode .diag-issue { background:rgba(0,0,0,0.03) !important; border-color:rgba(0,0,0,0.07) !important; }
+body.light-mode .vault-entity-name { color:rgba(26,21,16,0.88) !important; }
+body.light-mode .vault-doc-status { color:rgba(26,21,16,0.5) !important; }
+body.light-mode .comp-upcoming { color:#7a6200 !important; }
+body.light-mode .comp-sched { background:rgba(0,0,0,0.05) !important; color:rgba(26,21,16,0.4) !important; }
+body.light-mode .omt-meta { color:rgba(26,21,16,0.45) !important; }
+body.light-mode .org-node-name { color:rgba(26,21,16,0.9) !important; }
+body.light-mode .row-detail-label { color:rgba(26,21,16,0.45) !important; }
+body.light-mode .row-detail-val { color:rgba(26,21,16,0.85) !important; }
+body.light-mode .topbar-group { color:rgba(26,21,16,0.45) !important; }
+body.light-mode .topbar-title { color:rgba(26,21,16,0.9) !important; }
+body.light-mode .stat-val { color:#1a1510 !important; }
+body.light-mode .stat-label { color:rgba(26,21,16,0.5) !important; }
+body.light-mode .card-title { color:rgba(139,104,64,0.85) !important; }
+body.light-mode .panel-title { color:#1a1510 !important; }
+body.light-mode .panel-sub { color:rgba(26,21,16,0.4) !important; }
+body.light-mode .zt-table td { color:rgba(26,21,16,0.8) !important; }
+body.light-mode .zt-table th { color:rgba(26,21,16,0.5) !important; }
+body.light-mode .vault-doc-label { color:rgba(26,21,16,0.7) !important; }
+body.light-mode .kpi-name { color:rgba(26,21,16,0.65) !important; }
+body.light-mode .prog-bar span { color:rgba(26,21,16,0.55) !important; }
+body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
 </style>
 </head>
 <body>
@@ -1474,25 +1502,25 @@ function initCharts() {
   }};
 
   // Bayraq quarterly — real VAT filing data
-  new Chart(document.getElementById('bayraqChart'), { type:'bar', data:{
+  window._bayraqChart = new Chart(document.getElementById('bayraqChart'), { type:'bar', data:{
     labels:['Q3 2024','Q4 2024','Q1 2025','Q2 2025'],
     datasets:[{ data:[2149164,3060859,4775420,2684227], backgroundColor:'rgba(202,164,133,0.7)', borderColor:camel, borderWidth:1, borderRadius:4 }]
   }, options:{ ...def, plugins:{legend:{display:false}, tooltip:{callbacks:{ label: c => 'SAR '+c.raw.toLocaleString() }}} } });
 
   // Mada Atlas — real quarterly data
-  new Chart(document.getElementById('madaChart'), { type:'bar', data:{
+  window._madaChart = new Chart(document.getElementById('madaChart'), { type:'bar', data:{
     labels:['Q1 2025','Q2 2025'],
     datasets:[{ data:[250526,616677], backgroundColor:'rgba(202,164,133,0.5)', borderColor:camel, borderWidth:1, borderRadius:4 }]
   }, options:{ ...def, plugins:{legend:{display:false}, tooltip:{callbacks:{ label: c => 'SAR '+c.raw.toLocaleString() }}} } });
 
   // Projects status doughnut — real data
-  new Chart(document.getElementById('projectsChart'), { type:'doughnut', data:{
+  window._projectsChart = new Chart(document.getElementById('projectsChart'), { type:'doughnut', data:{
     labels:['Active','Awarded','Evaluation','Pre-Tender'],
     datasets:[{ data:[2,3,6,1], backgroundColor:['rgba(72,199,142,0.7)','rgba(100,160,240,0.7)','rgba(240,131,42,0.7)','rgba(255,253,244,0.15)'], borderColor:'transparent', borderWidth:2 }]
   }, options:{ responsive:true, maintainAspectRatio:true, plugins:{legend:{display:true, labels:{color:tick, font:{family:"'HacenMaghreb',sans-serif"}}}} } });
 
   // Overview: Projects status — real data
-  new Chart(document.getElementById('ovProjectsChart'), { type:'doughnut', data:{
+  window._ovProjectsChart = new Chart(document.getElementById('ovProjectsChart'), { type:'doughnut', data:{
     labels:['Active','Awarded','Evaluation','Pre-Tender'],
     datasets:[{ data:[2,3,6,1], backgroundColor:['rgba(72,199,142,0.75)','rgba(100,160,240,0.75)','rgba(240,131,42,0.75)','rgba(255,253,244,0.12)'], borderColor:'transparent', borderWidth:2 }]
   }, options:{ responsive:true, maintainAspectRatio:true, cutout:'65%',
@@ -1503,7 +1531,7 @@ function initCharts() {
   }});
 
   // Overview: Finance bar — real data
-  new Chart(document.getElementById('ovFinanceChart'), { type:'bar', data:{
+  window._ovFinanceChart = new Chart(document.getElementById('ovFinanceChart'), { type:'bar', data:{
     labels:['Bayraq\n(FY25)','Mada\n(FY25)','ZT\nHolding','Missing\nEntities'],
     datasets:[{ data:[17524813,1436912,0,6], backgroundColor:['rgba(202,164,133,0.75)','rgba(202,164,133,0.55)','rgba(224,92,92,0.4)','rgba(224,92,92,0.65)'], borderColor:'transparent', borderRadius:4 }]
   }, options:{ ...def,
@@ -1518,7 +1546,7 @@ function initCharts() {
   }});
 
   // Overview: Legal doughnut — real data
-  new Chart(document.getElementById('ovLegalChart'), { type:'doughnut', data:{
+  window._ovLegalChart = new Chart(document.getElementById('ovLegalChart'), { type:'doughnut', data:{
     labels:['Active','Expiring','Disputes','Completed'],
     datasets:[{ data:[7,1,2,2], backgroundColor:['rgba(72,199,142,0.75)','rgba(224,92,92,0.75)','rgba(240,131,42,0.75)','rgba(255,253,244,0.12)'], borderColor:'transparent', borderWidth:2 }]
   }, options:{ responsive:true, maintainAspectRatio:true, cutout:'65%',
@@ -1917,12 +1945,29 @@ function applyTheme(mode) {
     if (sun)  sun.style.display  = 'none';
     if (moon) moon.style.display = 'block';
   }
-  // Update Chart.js legend colors (canvas can't be styled via CSS)
-  const legendColor = mode === 'light' ? 'rgba(26,21,16,0.5)' : 'rgba(255,253,244,0.3)';
-  if (window._sectorChart) {
-    window._sectorChart.options.plugins.legend.labels.color = legendColor;
-    window._sectorChart.update();
-  }
+  // Update Chart.js colors (canvas can't be styled via CSS)
+  const lc = mode === 'light' ? 'rgba(26,21,16,0.5)'  : 'rgba(255,253,244,0.3)';
+  const gc = mode === 'light' ? 'rgba(26,21,16,0.06)' : 'rgba(255,253,244,0.06)';
+  // Bar charts — update axes ticks + grid
+  [window._bayraqChart, window._madaChart, window._ovFinanceChart].forEach(c => {
+    if (!c) return;
+    ['x','y'].forEach(ax => {
+      if (c.options.scales && c.options.scales[ax]) {
+        c.options.scales[ax].ticks = c.options.scales[ax].ticks || {};
+        c.options.scales[ax].ticks.color = lc;
+        c.options.scales[ax].grid  = c.options.scales[ax].grid  || {};
+        c.options.scales[ax].grid.color  = gc;
+      }
+    });
+    c.update();
+  });
+  // Donut/pie charts — update legend
+  [window._sectorChart, window._projectsChart, window._ovProjectsChart, window._ovLegalChart].forEach(c => {
+    if (!c || !c.options.plugins || !c.options.plugins.legend) return;
+    c.options.plugins.legend.labels = c.options.plugins.legend.labels || {};
+    c.options.plugins.legend.labels.color = lc;
+    c.update();
+  });
 }
 function toggleTheme() {
   const isLight = document.body.classList.contains('light-mode');
