@@ -281,7 +281,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
   /* ── Layout ── */
   .sidebar { position:fixed; height:100%; transform:translateX(-240px); z-index:200; }
   .sidebar.open { transform:translateX(0); }
-  .hamburger { display:flex; }
+  .hamburger { display:flex !important; }
   .main-area { width:100%; padding:0; }
 
   /* ── Panels & titles ── */
@@ -302,7 +302,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
   .stat-label { font-size:12px !important; }
 
   /* ── Topbar ── */
-  .topbar { padding:0 12px 0 4px !important; }
+  .topbar { padding:0 8px 0 4px !important; box-sizing:border-box !important; overflow:visible !important; }
   .topbar-title { font-size:12px !important; letter-spacing:2px; }
 
   /* ── Tables: horizontal scroll inside their container ── */
@@ -335,11 +335,11 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 
   /* Topbar: hide date, compress */
   .topbar-date { display:none !important; }
-  .topbar-right { gap:6px !important; }
+  .topbar-right { gap:5px !important; flex-shrink:1 !important; overflow:visible !important; }
   .search-input { width:90px !important; }
   .search-input:focus { width:130px !important; }
   .topbar-role { font-size:8px !important; padding:3px 6px !important; }
-  .theme-btn { width:30px !important; height:30px !important; margin-right:0 !important; }
+  .theme-btn { width:28px !important; height:28px !important; margin-right:2px !important; flex-shrink:0 !important; }
 
   /* Overview: stack sector chart + entity list vertically */
   .sector-chart-outer { flex-direction:column !important; gap:12px !important; }
@@ -607,6 +607,42 @@ body.light-mode .entity-snap { background:rgba(0,0,0,0.04) !important; border-le
 body.light-mode .entity-snap-name { color:rgba(26,21,16,0.75) !important; }
 body.light-mode .entity-snap .entity-snap-name { color:rgba(26,21,16,0.75) !important; }
 body.light-mode .sector-chart-outer { color:rgba(26,21,16,0.8); }
+
+/* Light mode: catch inline white rgba colors that would be invisible */
+body.light-mode .card [style*="rgba(255,253,244"] { color:rgba(26,21,16,0.65) !important; }
+body.light-mode .card [style*="color:rgba(255,253,244"] { color:rgba(26,21,16,0.65) !important; }
+body.light-mode .card [style*="color:var(--white"] { color:rgba(26,21,16,0.85) !important; }
+/* Finance chart legend in light mode */
+body.light-mode #panel-overview .card [style*="color:rgba(255,253,244,0.4"] { color:rgba(26,21,16,0.55) !important; }
+/* Org tree node text in light mode */
+body.light-mode .omt-name { color:rgba(26,21,16,0.88) !important; }
+body.light-mode .omt-meta { color:rgba(26,21,16,0.5) !important; }
+body.light-mode .omt-children { border-left-color:rgba(0,0,0,0.12) !important; }
+body.light-mode .omt-branch::before { background:rgba(0,0,0,0.12) !important; }
+body.light-mode .omt-node { background:rgba(0,0,0,0.03) !important; border-color:rgba(0,0,0,0.1) !important; }
+body.light-mode .omt-root { background:rgba(139,104,64,0.1) !important; border-color:rgba(139,104,64,0.35) !important; }
+body.light-mode .omt-l1 { background:rgba(0,0,0,0.05) !important; }
+/* Chart legend text in light mode */
+body.light-mode .ov-chart-card .card-title { color:rgba(26,21,16,0.5) !important; }
+/* Panel-level inline white text */
+body.light-mode .panel [style*="color:rgba(255,253,244,0.2"] { color:rgba(26,21,16,0.3) !important; }
+body.light-mode .panel [style*="color:rgba(255,253,244,0.3"] { color:rgba(26,21,16,0.4) !important; }
+body.light-mode .panel [style*="color:rgba(255,253,244,0.4"] { color:rgba(26,21,16,0.5) !important; }
+body.light-mode .panel [style*="color:rgba(255,253,244,0.5"] { color:rgba(26,21,16,0.6) !important; }
+body.light-mode .panel [style*="color:rgba(255,253,244,0.6"] { color:rgba(26,21,16,0.65) !important; }
+body.light-mode .panel [style*="color:rgba(255,253,244,0.7"] { color:rgba(26,21,16,0.75) !important; }
+body.light-mode .panel [style*="color:rgba(255,253,244,0.8"] { color:rgba(26,21,16,0.85) !important; }
+body.light-mode .panel [style*="color:rgba(255,253,244,0.9"] { color:rgba(26,21,16,0.9) !important; }
+body.light-mode .panel [style*="color:var(--white)"] { color:rgba(26,21,16,0.88) !important; }
+/* Stat badge in light mode */
+body.light-mode .stat-badge { color:rgba(26,21,16,0.65) !important; }
+/* Diagnostic issues */
+body.light-mode .diag-company { color:rgba(26,21,16,0.85) !important; }
+/* Nav section label */
+body.light-mode .sb-footer .sb-user { color:rgba(255,253,244,0.6) !important; }
+/* Alert banner */
+body.light-mode .data-alert, body.light-mode [style*="border:1px solid rgba(224,92,92"] { color:rgba(26,21,16,0.8) !important; }
+
 body.light-mode #panel-overview .card-title span:last-child { color:rgba(139,104,64,0.5) !important; }
 body.light-mode .ov-chart-card { background:#ffffff !important; }
 body.light-mode .ov-chart-card:hover { background:rgba(0,0,0,0.03) !important; }
