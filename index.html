@@ -553,7 +553,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .timeout-stay { background:rgba(202,164,133,0.15); border:1px solid rgba(202,164,133,0.4); color:var(--camel); border-radius:8px; padding:10px 26px; font-size:13px; cursor:pointer; font-family:inherit; transition:background .15s; }
 .timeout-stay:hover { background:rgba(202,164,133,0.25); }
 /* ── Theme toggle ── */
-.theme-btn { background:rgba(255,253,244,0.06); border:1px solid rgba(202,164,133,0.2); border-radius:8px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,253,244,0.5); transition:all .15s; flex-shrink:0; margin-right:4px; }
+.theme-btn { background:rgba(255,253,244,0.06); border:1px solid rgba(202,164,133,0.2); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,253,244,0.5); transition:all .15s; flex-shrink:0; margin-right:4px; }
 .theme-btn:hover { color:var(--camel); border-color:rgba(202,164,133,0.4); }
 /* ── Trend indicators ── */
 .stat-trend { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:8px; margin-top:5px; letter-spacing:.3px; }
@@ -650,6 +650,25 @@ body.light-mode .ov-chart-card:hover { background:rgba(0,0,0,0.03) !important; }
 body.light-mode .diag-issue { border-color:rgba(0,0,0,0.07); }
 body.light-mode .diag-field { color:rgba(26,21,16,0.75); }
 body.light-mode .diag-note { color:rgba(26,21,16,0.45); }
+body.light-mode .kpi-name { color:rgba(26,21,16,0.65) !important; }
+body.light-mode .vault-doc-label { color:rgba(26,21,16,0.65) !important; }
+body.light-mode .vault-doc-empty { color:rgba(26,21,16,0.35) !important; background:rgba(0,0,0,0.05) !important; }
+body.light-mode .prog-bar span { color:rgba(26,21,16,0.55) !important; }
+body.light-mode .comp-sched { background:rgba(0,0,0,0.05) !important; color:rgba(26,21,16,0.35) !important; }
+body.light-mode .tree-entity-meta { color:rgba(26,21,16,0.4) !important; }
+body.light-mode .tree-child-meta { color:rgba(26,21,16,0.35) !important; }
+body.light-mode .tree-child { background:rgba(0,0,0,0.04) !important; border-color:rgba(0,0,0,0.08) !important; }
+body.light-mode .panel-sub { color:rgba(26,21,16,0.4) !important; }
+body.light-mode .org-node-meta { color:rgba(26,21,16,0.4) !important; }
+body.light-mode .timeout-sub { color:rgba(26,21,16,0.55) !important; }
+body.light-mode .pill-grey { background:rgba(0,0,0,0.06) !important; color:rgba(26,21,16,0.5) !important; border-color:rgba(0,0,0,0.12) !important; }
+body.light-mode .comp-tag { color:rgba(26,21,16,0.55) !important; }
+body.light-mode .stat-trend { color:rgba(26,21,16,0.5) !important; }
+body.light-mode .trend-up { color:#2e7d52 !important; }
+body.light-mode .trend-down { color:#c0392b !important; }
+body.light-mode .vault-entity-name { color:rgba(26,21,16,0.85) !important; }
+/* Broad catch-all for any remaining inline rgba(255,253,244) in main-area */
+body.light-mode .main-area [style*="color:rgba(255,253,244"] { color:rgba(26,21,16,0.7) !important; }
 body.light-mode .omt-node { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.1); }
 body.light-mode .omt-name { color:rgba(26,21,16,0.9); }
 body.light-mode .omt-meta { color:rgba(26,21,16,0.45); }
@@ -1509,7 +1528,7 @@ function initCharts() {
   }});
 
   // Sector doughnut
-  new Chart(document.getElementById('sectorChart'), { type:'doughnut', data:{
+  window._sectorChart = new Chart(document.getElementById('sectorChart'), { type:'doughnut', data:{
     labels:['Industrial','Contracting','Hospitality','Trading','Logistics','Petroleum','Technology','Holding'],
     datasets:[{ data:[1,1,1,2,1,1,1,2], backgroundColor:['rgba(202,164,133,0.85)','rgba(202,164,133,0.70)','rgba(202,164,133,0.55)','rgba(202,164,133,0.40)','rgba(202,164,133,0.30)','rgba(3,34,64,0.8)','rgba(3,34,64,0.6)','rgba(3,34,64,0.4)'], borderColor:'rgba(255,253,244,0.08)', borderWidth:2 }]
   }, options:{ responsive:true, maintainAspectRatio:true, plugins:{legend:{display:true, position:'right', labels:{color:tick, font:{family:"'HacenMaghreb',sans-serif", size:10}}}} } });
@@ -1544,24 +1563,7 @@ async function applyLiveData(data) {
     if (statVals[1]) statVals[1].textContent = countries;
   }
 
-  // ── Finance ──
-  if (data.finance) {
-    // VAT table
-    if (data.finance.vat && data.finance.vat.length) {
-      const tbody = document.querySelector('#panel-finance .zt-table tbody');
-      if (tbody) {
-        tbody.innerHTML = data.finance.vat.map(r => `
-          <tr>
-            <td>${r['Period'] || r['Quarter'] || ''}</td>
-            <td>${Number(r['Taxable Sales'] || r['Taxable Sales (SAR)'] || 0).toLocaleString()}</td>
-            <td>${Number(r['VAT Output'] || 0).toLocaleString()}</td>
-            <td>${Number(r['VAT Input'] || 0).toLocaleString()}</td>
-            <td>${Number(r['Net VAT'] || 0).toLocaleString()}</td>
-            <td><span class="status-pill ${statusClass(r['Status'])}">${r['Status'] || ''}</span></td>
-          </tr>`).join('');
-      }
-    }
-  }
+  // ── Finance ── (static hardcoded data is correct; skip live overwrite)
 
   // ── Projects ──
   if (data.projects && data.projects.projects) {
@@ -1915,6 +1917,12 @@ function applyTheme(mode) {
     document.body.classList.remove('light-mode');
     if (sun)  sun.style.display  = 'none';
     if (moon) moon.style.display = 'block';
+  }
+  // Update Chart.js legend colors (canvas can't be styled via CSS)
+  const legendColor = mode === 'light' ? 'rgba(26,21,16,0.5)' : 'rgba(255,253,244,0.3)';
+  if (window._sectorChart) {
+    window._sectorChart.options.plugins.legend.labels.color = legendColor;
+    window._sectorChart.update();
   }
 }
 function toggleTheme() {
