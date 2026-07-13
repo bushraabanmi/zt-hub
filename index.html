@@ -433,6 +433,24 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .ov-chart-card:hover { background:rgba(202,164,133,0.08); border-color:rgba(202,164,133,0.3); }
 
 /* ── Org Chart ── */
+/* ── Progress bar ── */
+.prog-bar { display:flex; align-items:center; gap:8px; }
+.prog-fill { height:6px; border-radius:3px; background:var(--camel); opacity:0.7; min-width:2px; transition:width .4s; }
+.prog-bar span { font-size:11px; color:rgba(255,253,244,0.5); white-space:nowrap; }
+
+/* ── Search bar ── */
+.search-wrap { position:relative; display:flex; align-items:center; }
+.search-input { background:rgba(255,253,244,0.06); border:1px solid rgba(202,164,133,0.2); border-radius:20px; padding:6px 14px 6px 34px; font-size:12px; color:rgba(255,253,244,0.85); font-family:'HacenMaghreb',sans-serif; outline:none; width:180px; transition:width .25s, border-color .2s; }
+.search-input::placeholder { color:rgba(255,253,244,0.3); }
+.search-input:focus { border-color:rgba(202,164,133,0.5); width:240px; }
+.search-icon { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:rgba(202,164,133,0.5); font-size:13px; pointer-events:none; }
+.search-highlight { background:rgba(202,164,133,0.25); border-radius:2px; }
+
+/* ── Nav notification badge ── */
+.nav-badge { position:absolute; top:6px; right:6px; width:8px; height:8px; border-radius:50%; background:#e05c5c; border:1.5px solid #051929; display:none; }
+.nav-badge.active { display:block; }
+.nav-item { position:relative; }
+
 /* ── Mobile compact org tree (hidden on desktop) ── */
 .org-mobile-tree { display:none; }
 .omt-children { padding-left:16px; margin-left:12px; border-left:1px solid rgba(202,164,133,0.2); margin-top:2px; }
@@ -546,14 +564,17 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
       <div class="nav-item" onclick="showPanel('finance')" data-panel="finance" data-requires="finance">
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><path d="M1 11l3.5-4 3 3 3.5-5L14 8"/><rect x="1" y="1" width="13" height="13" rx="1"/></svg></div>
         Finance
+        <span class="nav-badge active" id="badge-finance" title="6 entities missing financials"></span>
       </div>
       <div class="nav-item" onclick="showPanel('projects')" data-panel="projects" data-requires="projects">
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><rect x="2" y="2" width="11" height="11" rx="1"/><path d="M5 7.5h5M7.5 5v5"/></svg></div>
         Projects
+        <span class="nav-badge active" id="badge-projects" title="6 tenders in evaluation"></span>
       </div>
       <div class="nav-item" onclick="showPanel('legal')" data-panel="legal" data-requires="legal">
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><path d="M4 2h7l2 2v9a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M4 6h7M4 9h5"/></svg></div>
         Legal
+        <span class="nav-badge active" id="badge-legal" title="Office lease expires in 3 days"></span>
       </div>
       <div class="nav-group-label">Intelligence</div>
       <div class="nav-item" onclick="showPanel('diagnostic')" data-panel="diagnostic" data-requires="diagnostic">
@@ -580,6 +601,10 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
         <div class="topbar-title" id="topbar-title">Group Overview</div>
       </div>
       <div class="topbar-right">
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input class="search-input" id="search-input" type="text" placeholder="Search…" oninput="doSearch(this.value)" autocomplete="off">
+        </div>
         <div class="topbar-role" id="topbar-role">ROLE</div>
         <div class="topbar-date" id="topbar-date"></div>
       </div>
@@ -825,13 +850,13 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
       <div class="panel" id="panel-finance">
         <div class="panel-header">
           <div class="panel-title">Finance</div>
-          <div class="panel-sub">Group Financial Intelligence · SAR</div>
+          <div class="panel-sub">Group Financial Intelligence · SAR · Source: Master File</div>
         </div>
         <div class="grid-4" style="margin-bottom:20px;">
-          <div class="card"><div class="stat-val" style="font-size:20px;">62.3M</div><div class="stat-label">Bayraq Revenue (FY2025E)</div><div class="stat-badge badge-ok">+12% YoY</div></div>
-          <div class="card"><div class="stat-val" style="font-size:20px;">8.1M</div><div class="stat-label">Mada Atlas Revenue (H1 2025)</div><div class="stat-badge badge-warn">Partial</div></div>
+          <div class="card"><div class="stat-val" style="font-size:20px;">20.8M</div><div class="stat-label">Group Revenue FY2025 (actual)</div><div class="stat-badge badge-ok">Bayraq + Mada Atlas</div></div>
+          <div class="card"><div class="stat-val" style="font-size:20px;">1.6M</div><div class="stat-label">Group Net Profit FY2025</div><div class="stat-badge badge-warn">Net of ZT Holding loss</div></div>
           <div class="card"><div class="stat-val">3</div><div class="stat-label">Entities with VAT Filings</div><div class="stat-badge badge-warn">7 missing</div></div>
-          <div class="card"><div class="stat-val">7</div><div class="stat-label">Entities Missing Financials</div><div class="stat-badge badge-low">Action needed</div></div>
+          <div class="card"><div class="stat-val" style="color:#e05c5c;">6</div><div class="stat-label">Entities Missing Financials</div><div class="stat-badge badge-low">Action needed</div></div>
         </div>
         <div class="grid-2">
           <div class="card">
@@ -839,19 +864,42 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
             <canvas id="bayraqChart" height="200"></canvas>
           </div>
           <div class="card">
-            <div class="card-title">Mada Atlas — Revenue 2025 (SAR)</div>
+            <div class="card-title">Mada Atlas — Quarterly Revenue 2025 (SAR)</div>
             <canvas id="madaChart" height="200"></canvas>
           </div>
         </div>
         <div class="card" style="margin-top:20px;">
-          <div class="card-title">ZT Holding KSA — VAT Filing Summary</div>
+          <div class="card-title">Entity P&amp;L Summary — Audited Actuals &amp; Projections</div>
           <table class="zt-table">
-            <thead><tr><th>Period</th><th>Taxable Sales (SAR)</th><th>VAT Output</th><th>VAT Input</th><th>Net VAT</th><th>Status</th></tr></thead>
+            <thead><tr><th>Entity</th><th>Year</th><th>Revenue (SAR)</th><th>Expenses (SAR)</th><th>Net Profit (SAR)</th><th>Audited</th></tr></thead>
             <tbody>
-              <tr><td>Q3 2024</td><td>4,200,000</td><td>630,000</td><td>410,000</td><td>220,000</td><td><span class="status-pill pill-green">Filed</span></td></tr>
-              <tr><td>Q4 2024</td><td>5,100,000</td><td>765,000</td><td>520,000</td><td>245,000</td><td><span class="status-pill pill-green">Filed</span></td></tr>
-              <tr><td>Q1 2025</td><td>4,800,000</td><td>720,000</td><td>490,000</td><td>230,000</td><td><span class="status-pill pill-green">Filed</span></td></tr>
-              <tr><td>Q2 2025</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="status-pill pill-orange">Pending</span></td></tr>
+              <tr><td>Bayraq Al Maadin</td><td>2024</td><td>11,437,747</td><td>10,458,439</td><td style="color:#48c78e;">+1,354,428</td><td><span class="status-pill pill-green">Yes</span></td></tr>
+              <tr><td>Bayraq Al Maadin</td><td>2025</td><td>17,524,813</td><td>15,676,990</td><td style="color:#48c78e;">+1,847,823</td><td><span class="status-pill pill-orange">No</span></td></tr>
+              <tr><td>Bayraq Al Maadin</td><td>2026 proj.</td><td>55,428,252</td><td>48,026,323</td><td style="color:#48c78e;">+7,402,020</td><td><span class="status-pill pill-grey">Projected</span></td></tr>
+              <tr><td>Mada Atlas</td><td>2024</td><td>1,618,444</td><td>1,509,294</td><td style="color:#48c78e;">+109,149</td><td><span class="status-pill pill-green">Yes</span></td></tr>
+              <tr><td>Mada Atlas</td><td>2025</td><td>1,436,912</td><td>1,237,194</td><td style="color:#48c78e;">+199,718</td><td><span class="status-pill pill-orange">No</span></td></tr>
+              <tr><td>ZT Holding KSA</td><td>2024</td><td>0</td><td>551,238</td><td style="color:#e05c5c;">−551,238</td><td><span class="status-pill pill-green">Yes</span></td></tr>
+              <tr><td>ZT Holding KSA</td><td>2025</td><td>0</td><td>1,465,480</td><td style="color:#e05c5c;">−1,465,480</td><td><span class="status-pill pill-orange">No</span></td></tr>
+              <tr><td>Wahat Al Dahab</td><td>2026 proj.</td><td>16,200,000</td><td>6,160,812</td><td style="color:#48c78e;">+10,039,188</td><td><span class="status-pill pill-grey">Projected</span></td></tr>
+              <tr><td>Amrak Furnished Apts</td><td>2026 proj.</td><td>1,200,000</td><td>600,000</td><td style="color:#48c78e;">+600,000</td><td><span class="status-pill pill-grey">Projected</span></td></tr>
+              <tr><td>UTN / Saih / Altoz / Techgenix</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="status-pill pill-red">Missing</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card" style="margin-top:20px;">
+          <div class="card-title">VAT Filing Records — Bayraq Al Maadin &amp; Mada Atlas</div>
+          <table class="zt-table">
+            <thead><tr><th>Entity</th><th>Period</th><th>Sales (SAR)</th><th>VAT Output</th><th>VAT Input</th><th>Net VAT Due</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Bayraq Al Maadin</td><td>Q3 2024</td><td>2,149,164</td><td>322,374</td><td>305,009</td><td>17,365</td><td><span class="status-pill pill-green">Filed</span></td></tr>
+              <tr><td>Bayraq Al Maadin</td><td>Q4 2024</td><td>3,060,859</td><td>459,128</td><td>437,163</td><td>21,965</td><td><span class="status-pill pill-green">Filed</span></td></tr>
+              <tr><td>Bayraq Al Maadin</td><td>Q1 2025</td><td>4,775,420</td><td>716,313</td><td>692,928</td><td>23,384</td><td><span class="status-pill pill-green">Filed</span></td></tr>
+              <tr><td>Bayraq Al Maadin</td><td>Q2 2025</td><td>2,684,227</td><td>402,634</td><td>384,710</td><td>17,923</td><td><span class="status-pill pill-green">Filed</span></td></tr>
+              <tr><td>Mada Atlas</td><td>Q1 2025</td><td>250,526</td><td>37,578</td><td>8,059</td><td>36,370</td><td><span class="status-pill pill-green">Filed</span></td></tr>
+              <tr><td>Mada Atlas</td><td>Q2 2025</td><td>616,677</td><td>92,501</td><td>69,318</td><td>82,103</td><td><span class="status-pill pill-green">Filed</span></td></tr>
+              <tr><td>Mada Atlas</td><td>Q3 2025</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="status-pill pill-orange">Pending</span></td></tr>
+              <tr><td>ZT Holding KSA</td><td>Q1–Q2 2025</td><td>34,932</td><td>10,707</td><td>—</td><td>—</td><td><span class="status-pill pill-green">Filed</span></td></tr>
+              <tr><td>UTN / Saih / Altoz / Wahat / Amrak / Techgenix</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="status-pill pill-red">No records</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -861,31 +909,53 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
       <div class="panel" id="panel-projects">
         <div class="panel-header">
           <div class="panel-title">Projects</div>
-          <div class="panel-sub">Active & Pipeline Projects across ZT Group</div>
+          <div class="panel-sub">Active &amp; Pipeline · Source: PMO Master Tracker</div>
         </div>
-        <div class="grid-3" style="margin-bottom:20px;">
+        <div class="grid-4" style="margin-bottom:20px;">
           <div class="card"><div class="stat-val">12</div><div class="stat-label">Total Projects</div></div>
-          <div class="card"><div class="stat-val">5</div><div class="stat-label">Active</div><div class="stat-badge badge-ok">On track</div></div>
-          <div class="card"><div class="stat-val">3</div><div class="stat-label">At Risk</div><div class="stat-badge badge-warn">Needs review</div></div>
+          <div class="card"><div class="stat-val" style="color:#48c78e;">5</div><div class="stat-label">Active / Awarded</div><div class="stat-badge badge-ok">In execution</div></div>
+          <div class="card"><div class="stat-val" style="color:#f0832a;">6</div><div class="stat-label">Tender Evaluation</div><div class="stat-badge badge-warn">SAR 19M pipeline</div></div>
+          <div class="card"><div class="stat-val" style="font-size:18px;">12.2M</div><div class="stat-label">Active Portfolio (SAR)</div><div class="stat-badge badge-ok">Contracted</div></div>
         </div>
         <div class="card" style="margin-bottom:20px;">
-          <div class="card-title">Project Portfolio</div>
+          <div class="card-title">Project Portfolio — Mada Atlas · As of July 2026</div>
           <table class="zt-table">
-            <thead><tr><th>Project</th><th>Company</th><th>Owner</th><th>Budget (SAR)</th><th>% Complete</th><th>Status</th></tr></thead>
+            <thead><tr><th>Project</th><th>Client / Owner</th><th>Contract Value (SAR)</th><th>End Date</th><th>% Complete</th><th>Status</th></tr></thead>
             <tbody>
-              <tr><td>North Makkah Land Dev.</td><td>ZT Holding KSA</td><td>TBD</td><td>416,000,000</td><td>5%</td><td><span class="status-pill pill-blue">Pipeline</span></td></tr>
-              <tr><td>Bayraq Phase 2 Expansion</td><td>Bayraq Al Maadin</td><td>Operations</td><td>12,000,000</td><td>35%</td><td><span class="status-pill pill-green">Active</span></td></tr>
-              <tr><td>Mada Atlas Contract #3</td><td>Mada Atlas</td><td>PM Team</td><td>8,500,000</td><td>60%</td><td><span class="status-pill pill-green">Active</span></td></tr>
-              <tr><td>Amrak Furnished — Block B</td><td>Amrak</td><td>Facilities</td><td>3,200,000</td><td>80%</td><td><span class="status-pill pill-green">Active</span></td></tr>
-              <tr><td>Altoz Petroleum Station #4</td><td>Altoz</td><td>Operations</td><td>2,100,000</td><td>45%</td><td><span class="status-pill pill-orange">At Risk</span></td></tr>
-              <tr><td>Techgenix Platform v2</td><td>Techgenix</td><td>CTO</td><td>1,800,000</td><td>20%</td><td><span class="status-pill pill-orange">At Risk</span></td></tr>
+              <tr><td>Raqaba Building — Maintenance &amp; Cleaning</td><td>Anti-Corruption Authority (Jouf)</td><td>1,076,504</td><td>Oct 2028</td><td><div class="prog-bar"><div class="prog-fill" style="width:55%"></div><span>55%</span></div></td><td><span class="status-pill pill-green">Active</span></td></tr>
+              <tr><td>Transport Ministry — Qassim Cleaning</td><td>Ministry of Transport</td><td>1,459,337</td><td>Oct 2026</td><td><div class="prog-bar"><div class="prog-fill" style="width:91%"></div><span>91%</span></div></td><td><span class="status-pill pill-green">Active</span></td></tr>
+              <tr><td>Transport Ministry — Jouf O&amp;M (new)</td><td>Ministry of Transport</td><td>1,464,248</td><td>May 2029</td><td><div class="prog-bar"><div class="prog-fill" style="width:6%"></div><span>6%</span></div></td><td><span class="status-pill pill-blue">Awarded</span></td></tr>
+              <tr><td>Transport Ministry — Madinah O&amp;M</td><td>Ministry of Transport</td><td>1,696,290</td><td>Mar 2029</td><td><div class="prog-bar"><div class="prog-fill" style="width:11%"></div><span>11%</span></div></td><td><span class="status-pill pill-blue">Awarded</span></td></tr>
+              <tr><td>Rangeland Research Center — O&amp;M &amp; Cleaning</td><td>National Rangeland Center (Jouf)</td><td>6,513,127</td><td>Apr 2031</td><td><div class="prog-bar"><div class="prog-fill" style="width:8%"></div><span>8%</span></div></td><td><span class="status-pill pill-blue">Awarded</span></td></tr>
+              <tr><td>Residential Complexes — Maintenance (Riyadh)</td><td>Private Sector</td><td>3,592,968</td><td>—</td><td><div class="prog-bar"><div class="prog-fill" style="width:0%"></div><span>—</span></div></td><td><span class="status-pill pill-orange">Evaluation</span></td></tr>
+              <tr><td>Transport Ministry — Najran O&amp;M</td><td>Ministry of Transport</td><td>1,783,459</td><td>—</td><td><div class="prog-bar"><div class="prog-fill" style="width:0%"></div><span>—</span></div></td><td><span class="status-pill pill-orange">Evaluation</span></td></tr>
+              <tr><td>Interior Ministry — Jazan Buildings</td><td>Ministry of Interior</td><td>1,427,223</td><td>—</td><td><div class="prog-bar"><div class="prog-fill" style="width:0%"></div><span>—</span></div></td><td><span class="status-pill pill-orange">Evaluation</span></td></tr>
+              <tr><td>166 Mosques — O&amp;M &amp; Cleaning (Riyadh)</td><td>Ministry of Islamic Affairs</td><td>9,047,217</td><td>—</td><td><div class="prog-bar"><div class="prog-fill" style="width:0%"></div><span>—</span></div></td><td><span class="status-pill pill-orange">Evaluation</span></td></tr>
+              <tr><td>Hail Rangeland Station — Maintenance</td><td>National Vegetation Center</td><td>3,193,939</td><td>—</td><td><div class="prog-bar"><div class="prog-fill" style="width:0%"></div><span>—</span></div></td><td><span class="status-pill pill-orange">Evaluation</span></td></tr>
+              <tr><td>Tabrajal Seed Station — Maintenance</td><td>National Vegetation Center</td><td>3,193,939</td><td>—</td><td><div class="prog-bar"><div class="prog-fill" style="width:0%"></div><span>—</span></div></td><td><span class="status-pill pill-orange">Evaluation</span></td></tr>
+              <tr><td>Riyadh Central Prison — O&amp;M</td><td>General Directorate of Prisons</td><td>TBD</td><td>—</td><td><div class="prog-bar"><div class="prog-fill" style="width:0%"></div><span>—</span></div></td><td><span class="status-pill pill-grey">Pre-Tender</span></td></tr>
             </tbody>
           </table>
         </div>
-        <div class="card">
-          <div class="card-title">Status Distribution</div>
-          <div style="max-width:260px;margin:0 auto;">
-            <canvas id="projectsChart" height="180"></canvas>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Status Distribution</div>
+            <div style="max-width:260px;margin:0 auto;">
+              <canvas id="projectsChart" height="180"></canvas>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Expired / Completed</div>
+            <div style="padding:8px 0;">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,253,244,0.03);border-radius:6px;border-left:3px solid rgba(255,253,244,0.15);margin-bottom:8px;">
+                <div><div style="font-size:13px;color:rgba(255,253,244,0.7);">Transport Ministry — Jouf Cleaning (original)</div><div style="font-size:11px;color:rgba(255,253,244,0.35);margin-top:2px;">Mada Atlas · SAR 1,831,793</div></div>
+                <span class="status-pill pill-grey">Expired May 2026</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(255,253,244,0.03);border-radius:6px;border-left:3px solid rgba(255,253,244,0.15);">
+                <div><div style="font-size:13px;color:rgba(255,253,244,0.7);">Workers' Accommodation — Al-Sakaka</div><div style="font-size:11px;color:rgba(255,253,244,0.35);margin-top:2px;">Mada Atlas · SAR 84,000</div></div>
+                <span class="status-pill pill-grey">Expired Apr 2026</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -894,25 +964,34 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
       <div class="panel" id="panel-legal">
         <div class="panel-header">
           <div class="panel-title">Legal</div>
-          <div class="panel-sub">Contracts, Compliance & Risk Registry</div>
+          <div class="panel-sub">Contracts &amp; Risk Registry · Source: Legal Management File</div>
         </div>
-        <div class="grid-3" style="margin-bottom:20px;">
-          <div class="card"><div class="stat-val">18</div><div class="stat-label">Total Contracts</div></div>
-          <div class="card"><div class="stat-val">4</div><div class="stat-label">Expiring in 90 Days</div><div class="stat-badge badge-warn">Review needed</div></div>
-          <div class="card"><div class="stat-val">3</div><div class="stat-label">High Risk Items</div><div class="stat-badge badge-low">Escalate</div></div>
+        <div class="grid-4" style="margin-bottom:20px;">
+          <div class="card"><div class="stat-val">11</div><div class="stat-label">Total Contracts</div></div>
+          <div class="card"><div class="stat-val" style="color:#e05c5c;">1</div><div class="stat-label">Expiring This Week</div><div class="stat-badge badge-low">Office lease Jul 16</div></div>
+          <div class="card"><div class="stat-val" style="color:#f0832a;">2</div><div class="stat-label">Active Disputes</div><div class="stat-badge badge-warn">Rent claim · Arbitration</div></div>
+          <div class="card"><div class="stat-val" style="font-size:18px;">53.7M</div><div class="stat-label">Total Active Value (SAR)</div><div class="stat-badge badge-ok">7 active contracts</div></div>
         </div>
-        <div class="card">
+        <div class="card" style="margin-bottom:20px;">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(224,92,92,0.10);border:1px solid rgba(224,92,92,0.3);border-radius:8px;margin-bottom:16px;">
+            <span style="font-size:18px;">⚠️</span>
+            <div><strong style="color:#e05c5c;">Urgent:</strong> <span style="color:rgba(255,253,244,0.8);">Office lease (ZT Holding KSA headquarters) expires <strong>July 16, 2026</strong> — 3 days. Pending rent dispute. Immediate action required.</span></div>
+          </div>
           <div class="card-title">Contract Registry</div>
           <table class="zt-table">
-            <thead><tr><th>Contract</th><th>Counterparty</th><th>Company</th><th>Expiry</th><th>Risk</th><th>Status</th></tr></thead>
+            <thead><tr><th>Contract</th><th>Party</th><th>Company</th><th>Value (SAR)</th><th>End Date</th><th>Disputes</th><th>Status</th></tr></thead>
             <tbody>
-              <tr><td>MOC Framework Agreement</td><td>Ministry of Commerce</td><td>ZT Holding KSA</td><td>Dec 2025</td><td><span class="status-pill pill-red">High</span></td><td><span class="status-pill pill-orange">Renewal Due</span></td></tr>
-              <tr><td>Mada Atlas JV Agreement</td><td>Atlas Partners</td><td>Mada Atlas</td><td>Mar 2026</td><td><span class="status-pill pill-orange">Med</span></td><td><span class="status-pill pill-green">Active</span></td></tr>
-              <tr><td>Bayraq Mining License</td><td>Ministry of Industry</td><td>Bayraq Al Maadin</td><td>Jul 2026</td><td><span class="status-pill pill-orange">Med</span></td><td><span class="status-pill pill-green">Active</span></td></tr>
-              <tr><td>Altoz Supply Agreement</td><td>Saudi Aramco</td><td>Altoz Petroleum</td><td>Jan 2026</td><td><span class="status-pill pill-red">High</span></td><td><span class="status-pill pill-orange">Under Review</span></td></tr>
-              <tr><td>Amrak Lease — Block A</td><td>Private Landlord</td><td>Amrak Apts</td><td>Sep 2025</td><td><span class="status-pill pill-red">High</span></td><td><span class="status-pill pill-red">Expiring Soon</span></td></tr>
-              <tr><td>Techgenix IP License</td><td>Tech Vendor</td><td>Techgenix</td><td>Dec 2026</td><td><span class="status-pill pill-grey">Low</span></td><td><span class="status-pill pill-green">Active</span></td></tr>
-              <tr><td>UTN Distribution Rights</td><td>Supplier Group</td><td>UTN</td><td>—</td><td><span class="status-pill pill-grey">Unknown</span></td><td><span class="status-pill pill-grey">Missing Data</span></td></tr>
+              <tr><td>Raqaba Building — Maintenance &amp; Cleaning (45/9228)</td><td>Anti-Corruption Authority</td><td>Mada Atlas</td><td>1,076,503</td><td>Oct 2028</td><td><span class="status-pill pill-green">None</span></td><td><span class="status-pill pill-green">Active</span></td></tr>
+              <tr><td>Transport Ministry — Qassim Cleaning</td><td>Ministry of Transport</td><td>Mada Atlas</td><td>1,459,337</td><td>Oct 2026</td><td><span class="status-pill pill-green">None</span></td><td><span class="status-pill pill-green">Active</span></td></tr>
+              <tr><td>Transport Ministry — Jouf O&amp;M (new)</td><td>Ministry of Transport</td><td>Mada Atlas</td><td>1,464,248</td><td>May 2029</td><td><span class="status-pill pill-green">None</span></td><td><span class="status-pill pill-green">Active</span></td></tr>
+              <tr><td>Transport Ministry — Madinah O&amp;M</td><td>Ministry of Transport</td><td>Mada Atlas</td><td>1,696,290</td><td>Mar 2029</td><td><span class="status-pill pill-green">None</span></td><td><span class="status-pill pill-green">Active</span></td></tr>
+              <tr><td>Rangeland Research Center — O&amp;M</td><td>National Rangeland Center</td><td>Mada Atlas</td><td>6,513,127</td><td>Apr 2031</td><td><span class="status-pill pill-green">None</span></td><td><span class="status-pill pill-green">Active</span></td></tr>
+              <tr><td>Bayraq Factory — Acquisition</td><td>Adnan Rashid Abu Hassan</td><td>Mada Atlas</td><td>10,000,000</td><td>Ongoing</td><td><span class="status-pill pill-orange">Pending verify</span></td><td><span class="status-pill pill-green">Active</span></td></tr>
+              <tr><td>China Harbor — Aluminium Facades (Bayraq)</td><td>China Harbour Engineers</td><td>Bayraq Al Maadin</td><td>27,878,075</td><td>TBD</td><td><span class="status-pill pill-green">None</span></td><td><span class="status-pill pill-green">Active</span></td></tr>
+              <tr style="background:rgba(224,92,92,0.06);"><td><strong>HQ Office Lease</strong></td><td>Ibtkar Business Company</td><td>ZT Holding KSA</td><td>324,300</td><td><strong style="color:#e05c5c;">Jul 16, 2026</strong></td><td><span class="status-pill pill-red">Rent claim</span></td><td><span class="status-pill pill-red">Expiring</span></td></tr>
+              <tr><td>Transport Ministry — Jouf Cleaning (original)</td><td>Ministry of Transport</td><td>Mada Atlas</td><td>1,831,793</td><td>May 2026</td><td><span class="status-pill pill-green">None</span></td><td><span class="status-pill pill-grey">Expired</span></td></tr>
+              <tr><td>Workers' Accommodation — Al-Sakaka</td><td>Fawzi Al-Khalidi</td><td>Mada Atlas</td><td>84,000</td><td>Apr 2026</td><td><span class="status-pill pill-green">None</span></td><td><span class="status-pill pill-grey">Expired</span></td></tr>
+              <tr><td>Mada Atlas — Share Purchase</td><td>Al-Bulhoud &amp; Al-Uwaida</td><td>ZT Holding KSA</td><td>1,800,000</td><td>Jan 2024</td><td><span class="status-pill pill-orange">Arbitration settled</span></td><td><span class="status-pill pill-grey">Completed</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -1100,28 +1179,28 @@ function initCharts() {
     y:{grid:{color:grid}, ticks:{color:tick, font:{family:"'HacenMaghreb',sans-serif", size:10}}}
   }};
 
-  // Bayraq quarterly
+  // Bayraq quarterly — real VAT filing data
   new Chart(document.getElementById('bayraqChart'), { type:'bar', data:{
-    labels:['Q3 2024','Q4 2024','Q1 2025','Q2 2025E'],
-    datasets:[{ data:[14200000,16800000,15900000,15400000], backgroundColor:'rgba(202,164,133,0.7)', borderColor:camel, borderWidth:1, borderRadius:4 }]
+    labels:['Q3 2024','Q4 2024','Q1 2025','Q2 2025'],
+    datasets:[{ data:[2149164,3060859,4775420,2684227], backgroundColor:'rgba(202,164,133,0.7)', borderColor:camel, borderWidth:1, borderRadius:4 }]
   }, options:{ ...def, plugins:{legend:{display:false}, tooltip:{callbacks:{ label: c => 'SAR '+c.raw.toLocaleString() }}} } });
 
-  // Mada Atlas
+  // Mada Atlas — real quarterly data
   new Chart(document.getElementById('madaChart'), { type:'bar', data:{
     labels:['Q1 2025','Q2 2025'],
-    datasets:[{ data:[4100000,4000000], backgroundColor:'rgba(202,164,133,0.5)', borderColor:camel, borderWidth:1, borderRadius:4 }]
+    datasets:[{ data:[250526,616677], backgroundColor:'rgba(202,164,133,0.5)', borderColor:camel, borderWidth:1, borderRadius:4 }]
   }, options:{ ...def, plugins:{legend:{display:false}, tooltip:{callbacks:{ label: c => 'SAR '+c.raw.toLocaleString() }}} } });
 
-  // Projects status doughnut
+  // Projects status doughnut — real data
   new Chart(document.getElementById('projectsChart'), { type:'doughnut', data:{
-    labels:['Active','Pipeline','At Risk','On Hold'],
-    datasets:[{ data:[5,3,3,1], backgroundColor:['rgba(72,199,142,0.7)','rgba(100,160,240,0.7)','rgba(240,131,42,0.7)','rgba(255,253,244,0.2)'], borderColor:'transparent', borderWidth:2 }]
+    labels:['Active','Awarded','Evaluation','Pre-Tender'],
+    datasets:[{ data:[2,3,6,1], backgroundColor:['rgba(72,199,142,0.7)','rgba(100,160,240,0.7)','rgba(240,131,42,0.7)','rgba(255,253,244,0.15)'], borderColor:'transparent', borderWidth:2 }]
   }, options:{ responsive:true, maintainAspectRatio:true, plugins:{legend:{display:true, labels:{color:tick, font:{family:"'HacenMaghreb',sans-serif"}}}} } });
 
-  // Overview: Projects status
+  // Overview: Projects status — real data
   new Chart(document.getElementById('ovProjectsChart'), { type:'doughnut', data:{
-    labels:['Active','Pipeline','At Risk','On Hold'],
-    datasets:[{ data:[5,3,3,1], backgroundColor:['rgba(72,199,142,0.75)','rgba(100,160,240,0.75)','rgba(240,131,42,0.75)','rgba(255,253,244,0.12)'], borderColor:'transparent', borderWidth:2 }]
+    labels:['Active','Awarded','Evaluation','Pre-Tender'],
+    datasets:[{ data:[2,3,6,1], backgroundColor:['rgba(72,199,142,0.75)','rgba(100,160,240,0.75)','rgba(240,131,42,0.75)','rgba(255,253,244,0.12)'], borderColor:'transparent', borderWidth:2 }]
   }, options:{ responsive:true, maintainAspectRatio:true, cutout:'65%',
     onClick: () => showPanel('projects'),
     plugins:{legend:{display:false}, tooltip:{callbacks:{ label: c => c.label+': '+c.raw },
@@ -1129,25 +1208,25 @@ function initCharts() {
     }}
   }});
 
-  // Overview: Finance & Tax bar
+  // Overview: Finance bar — real data
   new Chart(document.getElementById('ovFinanceChart'), { type:'bar', data:{
-    labels:['Bayraq\n(FY25E)','Mada\n(H1 25)','VAT\nFiled','Missing\nFinancials'],
-    datasets:[{ data:[62300000,8100000,3,7], backgroundColor:['rgba(202,164,133,0.75)','rgba(202,164,133,0.55)','rgba(72,199,142,0.65)','rgba(224,92,92,0.65)'], borderColor:'transparent', borderRadius:4 }]
+    labels:['Bayraq\n(FY25)','Mada\n(FY25)','ZT\nHolding','Missing\nEntities'],
+    datasets:[{ data:[17524813,1436912,0,6], backgroundColor:['rgba(202,164,133,0.75)','rgba(202,164,133,0.55)','rgba(224,92,92,0.4)','rgba(224,92,92,0.65)'], borderColor:'transparent', borderRadius:4 }]
   }, options:{ ...def,
     onClick: () => showPanel('finance'),
     plugins:{legend:{display:false}, tooltip:{callbacks:{ label: c => {
-      if(c.dataIndex < 2) return 'SAR '+c.raw.toLocaleString();
-      return c.raw+' entities';
+      if(c.dataIndex < 3) return 'Revenue SAR '+c.raw.toLocaleString();
+      return c.raw+' entities missing data';
     }}}}, scales:{
       x:{ grid:{color:grid}, ticks:{color:tick, font:{family:"'HacenMaghreb',sans-serif", size:10}} },
       y:{ display:false }
     }
   }});
 
-  // Overview: Legal & Contracts doughnut
+  // Overview: Legal doughnut — real data
   new Chart(document.getElementById('ovLegalChart'), { type:'doughnut', data:{
-    labels:['Active','Expiring Soon','High Risk','Expired'],
-    datasets:[{ data:[4,3,2,1], backgroundColor:['rgba(72,199,142,0.75)','rgba(240,131,42,0.75)','rgba(224,92,92,0.75)','rgba(255,253,244,0.12)'], borderColor:'transparent', borderWidth:2 }]
+    labels:['Active','Expiring','Disputes','Completed'],
+    datasets:[{ data:[7,1,2,2], backgroundColor:['rgba(72,199,142,0.75)','rgba(224,92,92,0.75)','rgba(240,131,42,0.75)','rgba(255,253,244,0.12)'], borderColor:'transparent', borderWidth:2 }]
   }, options:{ responsive:true, maintainAspectRatio:true, cutout:'65%',
     onClick: () => showPanel('legal'),
     plugins:{legend:{display:false}, tooltip:{callbacks:{ label: c => c.label+': '+c.raw }}}
@@ -1266,6 +1345,51 @@ function riskClass(r) {
   const m = {'High':'pill-red','Med':'pill-orange','Medium':'pill-orange','Low':'pill-grey','Unknown':'pill-grey'};
   return m[r] || 'pill-grey';
 }
+
+// ═══════════════════════════════════════════════════════════
+//  SEARCH — searches all visible table rows and panel titles
+// ═══════════════════════════════════════════════════════════
+function doSearch(q) {
+  const term = q.trim().toLowerCase();
+  // Clear all highlights first
+  document.querySelectorAll('.search-highlight').forEach(el => {
+    el.outerHTML = el.textContent;
+  });
+
+  if (!term) {
+    // Show all rows
+    document.querySelectorAll('.zt-table tbody tr').forEach(tr => tr.style.display = '');
+    return;
+  }
+
+  // Filter table rows across ALL panels (not just active)
+  document.querySelectorAll('.zt-table tbody tr').forEach(tr => {
+    const text = tr.textContent.toLowerCase();
+    tr.style.display = text.includes(term) ? '' : 'none';
+  });
+
+  // If any panel has matching rows, switch to it (pick first match)
+  const panels = ['overview','finance','projects','legal','diagnostic'];
+  for (const pid of panels) {
+    const panel = document.getElementById('panel-' + pid);
+    if (!panel) continue;
+    const visible = [...(panel.querySelectorAll('.zt-table tbody tr') || [])].some(tr => tr.style.display !== 'none');
+    if (visible) {
+      showPanel(pid);
+      break;
+    }
+  }
+}
+
+// Clear search when switching panels manually
+const _origShowPanel = showPanel;
+showPanel = function(id) {
+  _origShowPanel(id);
+  const si = document.getElementById('search-input');
+  if (si && si.value) {
+    // Keep search active — rows already filtered
+  }
+};
 
 </script>
 </body>
