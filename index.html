@@ -229,8 +229,44 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 
 /* Mobile: hide brand panel */
 @media (max-width:768px) {
-  .login-brand { display:none; }
-  .login-form-panel { padding:32px 24px; }
+  #login-screen { flex-direction:column; overflow-y:auto; }
+
+  /* Brand panel becomes compact top header */
+  .login-brand {
+    flex:0 0 auto;
+    padding:32px 24px 24px;
+    background: linear-gradient(180deg, #031a2e 0%, #020c18 100%);
+    align-items:center; text-align:center;
+  }
+  .login-brand::after { display:none; }
+  .login-brand-border { display:none; }
+
+  .lb-top { text-align:center; }
+  .lb-logo img { width:64px; }
+
+  .lb-slogan { font-size:9px; margin-top:10px; }
+
+  /* Hide the long description on mobile */
+  .lb-mid { display:none; }
+
+  /* Stats row — compact */
+  .lb-stats {
+    border-top:1px solid rgba(202,164,133,0.12);
+    padding-top:16px;
+    margin-top:16px;
+    justify-content:center;
+    gap:0;
+    width:100%;
+  }
+  .lb-stat { padding:0 20px; text-align:center; }
+  .lb-stat-num { font-size:22px; }
+  .lb-stat-lbl { font-size:9px; }
+
+  /* Hide 2026 bottom label on mobile */
+  .lb-year { display:none; }
+
+  /* Form panel fills rest */
+  .login-form-panel { flex:1; padding:32px 24px; }
   .login-card { max-width:100%; }
 }
 
