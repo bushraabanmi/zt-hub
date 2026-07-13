@@ -332,6 +332,37 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
   /* ── Org chart: swap horizontal tree for compact vertical list on mobile ── */
   #org-scroll-wrap { display: none !important; }
   .org-mobile-tree { display: block !important; }
+
+  /* Topbar: hide date, compress */
+  .topbar-date { display:none !important; }
+  .topbar-right { gap:6px !important; }
+  .search-input { width:90px !important; }
+  .search-input:focus { width:130px !important; }
+  .topbar-role { font-size:8px !important; padding:3px 6px !important; }
+  .theme-btn { width:30px !important; height:30px !important; margin-right:0 !important; }
+
+  /* Overview: stack sector chart + entity list vertically */
+  .sector-chart-outer { flex-direction:column !important; gap:12px !important; }
+  .sector-chart-canvas-wrap { flex:none !important; max-width:100% !important; width:100% !important; }
+  .entity-snap-list { min-width:100% !important; width:100% !important; }
+  .entity-snap { padding:7px 10px !important; }
+  .entity-snap-name { font-size:12px !important; }
+
+  /* Overview: 3 intelligence chart cards → single column */
+  #panel-overview .grid-3 { grid-template-columns:1fr !important; }
+
+  /* KPI: 2 columns → single column */
+  .kpi-cols { grid-template-columns:1fr !important; }
+
+  /* Vault: force single column */
+  .vault-grid { grid-template-columns:1fr !important; }
+
+  /* Compliance filter buttons: wrap */
+  .comp-filter-btn { font-size:10px !important; padding:3px 9px !important; }
+
+  /* Expandable row detail: smaller grid */
+  .row-detail-grid { grid-template-columns:1fr 1fr !important; gap:8px 12px !important; }
+
 }
 
 /* ═══════════════ APP SHELL ═══════════════ */
@@ -571,6 +602,15 @@ body.light-mode .comp-filter-btn { background:rgba(0,0,0,0.05); border-color:rgb
 body.light-mode .row-detail-tr td { background:rgba(0,0,0,0.025) !important; }
 body.light-mode .row-detail-label { color:rgba(26,21,16,0.45); }
 body.light-mode .row-detail-val { color:rgba(26,21,16,0.85); }
+
+body.light-mode .entity-snap { background:rgba(0,0,0,0.04) !important; border-left-color:rgba(139,104,64,0.4) !important; }
+body.light-mode .entity-snap-name { color:rgba(26,21,16,0.75) !important; }
+body.light-mode .entity-snap .entity-snap-name { color:rgba(26,21,16,0.75) !important; }
+body.light-mode .sector-chart-outer { color:rgba(26,21,16,0.8); }
+body.light-mode #panel-overview .card-title span:last-child { color:rgba(139,104,64,0.5) !important; }
+body.light-mode .ov-chart-card { background:#ffffff !important; }
+body.light-mode .ov-chart-card:hover { background:rgba(0,0,0,0.03) !important; }
+
 body.light-mode .diag-issue { border-color:rgba(0,0,0,0.07); }
 body.light-mode .diag-field { color:rgba(26,21,16,0.75); }
 body.light-mode .diag-note { color:rgba(26,21,16,0.45); }
@@ -903,18 +943,18 @@ body.light-mode .prog-fill { opacity:0.9; }
             </div><!-- end mobile tree -->
 
             <!-- Sector chart stays below -->
-            <div style="margin-top:24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-              <div style="flex:0 0 220px;max-width:220px;">
+            <div class="sector-chart-outer" style="margin-top:24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+              <div class="sector-chart-canvas-wrap" style="flex:0 0 220px;max-width:220px;">
                 <div style="font-size:10px;color:rgba(255,253,244,0.25);margin-bottom:10px;letter-spacing:1px;text-transform:uppercase;">Entities by Sector</div>
                 <canvas id="sectorChart" height="160"></canvas>
               </div>
-              <div style="flex:1;min-width:180px;display:grid;gap:8px;">
+              <div class="entity-snap-list" style="flex:1;min-width:180px;display:grid;gap:8px;">
                 <div style="font-size:10px;color:rgba(255,253,244,0.25);margin-bottom:4px;letter-spacing:1px;text-transform:uppercase;">Entity Snapshot</div>
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,253,244,0.04);border-radius:6px;border-left:3px solid rgba(202,164,133,0.5);"><span style="font-size:13px;color:var(--white-70);">Bayraq Al Maadin</span><span style="font-size:12px;color:var(--camel);">Industrial · 100%</span></div>
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,253,244,0.04);border-radius:6px;border-left:3px solid rgba(202,164,133,0.4);"><span style="font-size:13px;color:var(--white-70);">Mada Atlas Contracting</span><span style="font-size:12px;color:var(--camel);">Contracting · 80%</span></div>
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,253,244,0.04);border-radius:6px;border-left:3px solid rgba(202,164,133,0.3);"><span style="font-size:13px;color:var(--white-70);">Amrak Furnished Apts</span><span style="font-size:12px;color:var(--camel);">Hospitality · 100%</span></div>
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,253,244,0.04);border-radius:6px;border-left:3px solid rgba(3,34,64,0.9);"><span style="font-size:13px;color:var(--white-70);">Wahat Al Dahab / UTN</span><span style="font-size:12px;color:var(--camel);">Trading · 75–100%</span></div>
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,253,244,0.04);border-radius:6px;border-left:3px solid rgba(3,34,64,0.7);"><span style="font-size:13px;color:var(--white-70);">Saih / Altoz / Techgenix</span><span style="font-size:12px;color:var(--camel);">Logistics / Petro / Tech</span></div>
+                <div class="entity-snap" style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,253,244,0.04);border-radius:6px;border-left:3px solid rgba(202,164,133,0.5);"><span class="entity-snap-name" style="font-size:13px;">Bayraq Al Maadin</span><span style="font-size:12px;color:var(--camel);">Industrial · 100%</span></div>
+                <div class="entity-snap" style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,253,244,0.04);border-radius:6px;border-left:3px solid rgba(202,164,133,0.4);"><span class="entity-snap-name" style="font-size:13px;">Mada Atlas Contracting</span><span style="font-size:12px;color:var(--camel);">Contracting · 80%</span></div>
+                <div class="entity-snap" style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,253,244,0.04);border-radius:6px;border-left:3px solid rgba(202,164,133,0.3);"><span class="entity-snap-name" style="font-size:13px;">Amrak Furnished Apts</span><span style="font-size:12px;color:var(--camel);">Hospitality · 100%</span></div>
+                <div class="entity-snap" style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,253,244,0.04);border-radius:6px;border-left:3px solid rgba(3,34,64,0.9);"><span class="entity-snap-name" style="font-size:13px;">Wahat Al Dahab / UTN</span><span style="font-size:12px;color:var(--camel);">Trading · 75–100%</span></div>
+                <div class="entity-snap" style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:rgba(255,253,244,0.04);border-radius:6px;border-left:3px solid rgba(3,34,64,0.7);"><span class="entity-snap-name" style="font-size:13px;">Saih / Altoz / Techgenix</span><span style="font-size:12px;color:var(--camel);">Logistics / Petro / Tech</span></div>
               </div>
             </div>
 
@@ -1198,7 +1238,7 @@ body.light-mode .prog-fill { opacity:0.9; }
           <div class="card"><div class="stat-val">75%</div><div class="stat-label">Projects On Schedule</div></div>
           <div class="card"><div class="stat-val" style="color:#e05c5c;">65%</div><div class="stat-label">Compliance Rate</div></div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="kpi-cols" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
           <div class="card">
             <div class="card-title">Financial KPIs</div>
             <div class="kpi-list" id="kpi-financial"></div>
