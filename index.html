@@ -335,7 +335,10 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 
   /* Topbar: hide date + search, keep theme btn + role badge */
   .topbar-date { display:none !important; }
-  .search-wrap { display:none !important; }
+  .desktop-search { display:none !important; }
+  .mobile-search-row { display:flex; align-items:center; padding:6px 14px 8px; background:var(--navy); border-bottom:1px solid rgba(202,164,133,0.08); }
+  .mobile-search-row .search-wrap { width:100%; }
+  .mobile-search-row .search-input { width:100% !important; box-sizing:border-box; }
   .topbar-right { gap:6px !important; flex-shrink:0 !important; overflow:hidden !important; padding-right:12px !important; }
   .topbar-role { font-size:8px !important; padding:3px 6px !important; }
   .theme-btn { width:30px !important; height:30px !important; margin-right:0 !important; flex-shrink:0 !important; overflow:visible !important; }
@@ -552,8 +555,8 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .timeout-stay { background:rgba(202,164,133,0.15); border:1px solid rgba(202,164,133,0.4); color:var(--camel); border-radius:8px; padding:10px 26px; font-size:13px; cursor:pointer; font-family:inherit; transition:background .15s; }
 .timeout-stay:hover { background:rgba(202,164,133,0.25); }
 /* ── Theme toggle ── */
-.theme-btn { background:rgba(255,253,244,0.06); border:1px solid rgba(202,164,133,0.2); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(255,253,244,0.5); transition:all .15s; flex-shrink:0; margin-right:4px; }
-.theme-btn:hover { color:var(--camel); border-color:rgba(202,164,133,0.4); }
+.theme-btn { background:rgba(202,164,133,0.12); border:1px solid rgba(202,164,133,0.35); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(202,164,133,0.9); transition:all .15s; flex-shrink:0; margin-right:4px; }
+.theme-btn:hover { color:#CAA485; border-color:rgba(202,164,133,0.7); background:rgba(202,164,133,0.2); }
 /* ── Trend indicators ── */
 .stat-trend { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:8px; margin-top:5px; letter-spacing:.3px; }
 .trend-up   { background:rgba(92,200,152,0.15); color:#5cc898; }
@@ -851,12 +854,18 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
           <svg id="theme-sun" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" style="display:none"><circle cx="7.5" cy="7.5" r="2.5"/><path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M3 3l1 1M11 11l1 1M11 3l-1 1M3 11l1-1" stroke-linecap="round"/></svg>
           <svg id="theme-moon" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 9.5A6 6 0 015.5 2a6 6 0 100 11 6 6 0 007.5-3.5z" stroke-linecap="round"/></svg>
         </button>
-                <div class="search-wrap">
+                <div class="search-wrap desktop-search">
           <span class="search-icon">⌕</span>
           <input class="search-input" id="search-input" type="text" placeholder="Search…" oninput="doSearch(this.value)" autocomplete="off">
         </div>
         <div class="topbar-role" id="topbar-role">ROLE</div>
         <div class="topbar-date" id="topbar-date"></div>
+      </div>
+    </div>
+    <div class="mobile-search-row" id="mobile-search-row" style="display:none;">
+      <div class="search-wrap" style="width:100%;">
+        <span class="search-icon">⌕</span>
+        <input class="search-input" type="text" placeholder="Search…" oninput="doSearch(this.value)" autocomplete="off" style="width:100%;box-sizing:border-box;">
       </div>
     </div>
     <div class="content-area">
@@ -1495,7 +1504,9 @@ function initCharts() {
   if (chartsInit) return;
   chartsInit = true;
   const camel = '#CAA485', navy = '#032240';
-  const grid = 'rgba(255,253,244,0.06)', tick = 'rgba(255,253,244,0.3)';
+  const isLight = document.body.classList.contains('light-mode');
+  const grid = isLight ? 'rgba(26,21,16,0.06)' : 'rgba(255,253,244,0.06)';
+  const tick = isLight ? 'rgba(26,21,16,0.5)'  : 'rgba(255,253,244,0.3)';
   const def = { responsive:true, maintainAspectRatio:true, plugins:{legend:{display:false}}, scales:{
     x:{grid:{color:grid}, ticks:{color:tick, font:{family:"'HacenMaghreb',sans-serif", size:10}}},
     y:{grid:{color:grid}, ticks:{color:tick, font:{family:"'HacenMaghreb',sans-serif", size:10}}}
