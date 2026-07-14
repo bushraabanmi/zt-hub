@@ -203,6 +203,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .admin-login-err { display:none; position:absolute; bottom:-26px; right:0; font-size:10.5px; color:#f08080; white-space:nowrap; }
 
 /* Mobile: hide brand panel */
+.mobile-search-row { display:none; }
 @media (max-width:768px) {
   #login-screen {
     flex-direction:column;
@@ -336,10 +337,10 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
   /* Topbar: hide date + search, keep theme btn + role badge */
   .topbar-date { display:none !important; }
   .desktop-search { display:none !important; }
-  .mobile-search-row { display:none; align-items:center; padding:6px 14px 8px; background:var(--navy); border-bottom:1px solid rgba(202,164,133,0.08); }
+  .mobile-search-row { display:flex; align-items:center; padding:6px 14px 8px; background:var(--navy); border-bottom:1px solid rgba(202,164,133,0.08); }
   .mobile-search-row .search-wrap { width:100%; }
   .mobile-search-row .search-input { width:100% !important; box-sizing:border-box; }
-  .topbar-right { gap:6px !important; flex-shrink:0 !important; overflow:hidden !important; padding-right:12px !important; }
+  .topbar-right { gap:6px !important; flex-shrink:0 !important; overflow:visible !important; padding-right:12px !important; }
   .topbar-role { font-size:8px !important; padding:3px 6px !important; }
   .theme-btn { width:30px !important; height:30px !important; margin-right:0 !important; flex-shrink:0 !important; overflow:visible !important; border-radius:8px !important; }
 
@@ -852,8 +853,8 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
       </div>
       <div class="topbar-right">
 <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Toggle theme">
-          <svg id="theme-sun" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" style="display:none"><circle cx="7.5" cy="7.5" r="2.5"/><path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M3 3l1 1M11 11l1 1M11 3l-1 1M3 11l1-1" stroke-linecap="round"/></svg>
-          <svg id="theme-moon" width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 9.5A6 6 0 015.5 2a6 6 0 100 11 6 6 0 007.5-3.5z" stroke-linecap="round"/></svg>
+          <svg id="theme-sun" width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" style="display:none"><circle cx="7.5" cy="7.5" r="2.5"/><path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M3 3l1 1M11 11l1 1M11 3l-1 1M3 11l1-1" stroke-linecap="round"/></svg>
+          <svg id="theme-moon" width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 9.5A6 6 0 015.5 2a6 6 0 100 11 6 6 0 007.5-3.5z" stroke-linecap="round"/></svg>
         </button>
                 <div class="search-wrap desktop-search">
           <span class="search-icon">⌕</span>
