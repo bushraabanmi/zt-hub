@@ -336,12 +336,12 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
   /* Topbar: hide date + search, keep theme btn + role badge */
   .topbar-date { display:none !important; }
   .desktop-search { display:none !important; }
-  .mobile-search-row { display:flex; align-items:center; padding:6px 14px 8px; background:var(--navy); border-bottom:1px solid rgba(202,164,133,0.08); }
+  .mobile-search-row { display:none; align-items:center; padding:6px 14px 8px; background:var(--navy); border-bottom:1px solid rgba(202,164,133,0.08); }
   .mobile-search-row .search-wrap { width:100%; }
   .mobile-search-row .search-input { width:100% !important; box-sizing:border-box; }
   .topbar-right { gap:6px !important; flex-shrink:0 !important; overflow:hidden !important; padding-right:12px !important; }
   .topbar-role { font-size:8px !important; padding:3px 6px !important; }
-  .theme-btn { width:30px !important; height:30px !important; margin-right:0 !important; flex-shrink:0 !important; overflow:visible !important; }
+  .theme-btn { width:30px !important; height:30px !important; margin-right:0 !important; flex-shrink:0 !important; overflow:visible !important; border-radius:8px !important; }
 
   /* Overview: stack sector chart + entity list vertically */
   .sector-chart-outer { flex-direction:column !important; gap:12px !important; }
@@ -555,7 +555,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .timeout-stay { background:rgba(202,164,133,0.15); border:1px solid rgba(202,164,133,0.4); color:var(--camel); border-radius:8px; padding:10px 26px; font-size:13px; cursor:pointer; font-family:inherit; transition:background .15s; }
 .timeout-stay:hover { background:rgba(202,164,133,0.25); }
 /* ── Theme toggle ── */
-.theme-btn { background:rgba(202,164,133,0.12); border:1px solid rgba(202,164,133,0.35); border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(202,164,133,0.9); transition:all .15s; flex-shrink:0; margin-right:4px; }
+.theme-btn { background:rgba(202,164,133,0.12); border:1px solid rgba(202,164,133,0.35); border-radius:8px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(202,164,133,0.9); transition:all .15s; flex-shrink:0; margin-right:4px; }
 .theme-btn:hover { color:#CAA485; border-color:rgba(202,164,133,0.7); background:rgba(202,164,133,0.2); }
 /* ── Trend indicators ── */
 .stat-trend { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:8px; margin-top:5px; letter-spacing:.3px; }
@@ -675,6 +675,7 @@ body.light-mode .omt-node { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0
 body.light-mode .omt-name { color:rgba(26,21,16,0.9); }
 body.light-mode .omt-meta { color:rgba(26,21,16,0.45); }
 body.light-mode .prog-fill { opacity:0.9; }
+body.light-mode .mobile-search-row { background:#ffffff !important; border-bottom-color:rgba(0,0,0,0.08) !important; }
 /* ── Additional class overrides ── */
 body.light-mode .tree-child-name { color:rgba(26,21,16,0.75) !important; }
 body.light-mode .tree-entity-name { color:rgba(26,21,16,0.9) !important; }
@@ -862,7 +863,7 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
         <div class="topbar-date" id="topbar-date"></div>
       </div>
     </div>
-    <div class="mobile-search-row" id="mobile-search-row" style="display:none;">
+    <div class="mobile-search-row" id="mobile-search-row">
       <div class="search-wrap" style="width:100%;">
         <span class="search-icon">⌕</span>
         <input class="search-input" type="text" placeholder="Search…" oninput="doSearch(this.value)" autocomplete="off" style="width:100%;box-sizing:border-box;">
@@ -1237,7 +1238,7 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
             <div><strong style="color:#e05c5c;">Urgent:</strong> <span style="color:rgba(255,253,244,0.8);">Office lease (ZT Holding KSA headquarters) expires <strong>July 16, 2026</strong> — 3 days. Pending rent dispute. Immediate action required.</span></div>
           </div>
           <div class="card-title">Contract Registry</div>
-          <table class="zt-table">
+          <div class="table-wrap"><table class="zt-table">
             <thead><tr><th>Contract</th><th>Party</th><th>Company</th><th>Value (SAR)</th><th>End Date</th><th>Disputes</th><th>Status</th></tr></thead>
             <tbody>
               <tr><td>Raqaba Building — Maintenance &amp; Cleaning (45/9228)</td><td>Anti-Corruption Authority</td><td>Mada Atlas</td><td>1,076,503</td><td>Oct 2028</td><td><span class="status-pill pill-green">None</span></td><td><span class="status-pill pill-green">Active</span></td></tr>
@@ -1252,7 +1253,7 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
               <tr><td>Workers' Accommodation — Al-Sakaka</td><td>Fawzi Al-Khalidi</td><td>Mada Atlas</td><td>84,000</td><td>Apr 2026</td><td><span class="status-pill pill-green">None</span></td><td><span class="status-pill pill-grey">Expired</span></td></tr>
               <tr><td>Mada Atlas — Share Purchase</td><td>Al-Bulhoud &amp; Al-Uwaida</td><td>ZT Holding KSA</td><td>1,800,000</td><td>Jan 2024</td><td><span class="status-pill pill-orange">Arbitration settled</span></td><td><span class="status-pill pill-grey">Completed</span></td></tr>
             </tbody>
-          </table>
+          </table></div>
         </div>
       </div>
 
@@ -1956,29 +1957,14 @@ function applyTheme(mode) {
     if (sun)  sun.style.display  = 'none';
     if (moon) moon.style.display = 'block';
   }
-  // Update Chart.js colors (canvas can't be styled via CSS)
-  const lc = mode === 'light' ? 'rgba(26,21,16,0.5)'  : 'rgba(255,253,244,0.3)';
-  const gc = mode === 'light' ? 'rgba(26,21,16,0.06)' : 'rgba(255,253,244,0.06)';
-  // Bar charts — update axes ticks + grid
-  [window._bayraqChart, window._madaChart, window._ovFinanceChart].forEach(c => {
-    if (!c) return;
-    ['x','y'].forEach(ax => {
-      if (c.options.scales && c.options.scales[ax]) {
-        c.options.scales[ax].ticks = c.options.scales[ax].ticks || {};
-        c.options.scales[ax].ticks.color = lc;
-        c.options.scales[ax].grid  = c.options.scales[ax].grid  || {};
-        c.options.scales[ax].grid.color  = gc;
-      }
-    });
-    c.update();
-  });
-  // Donut/pie charts — update legend
-  [window._sectorChart, window._projectsChart, window._ovProjectsChart, window._ovLegalChart].forEach(c => {
-    if (!c || !c.options.plugins || !c.options.plugins.legend) return;
-    c.options.plugins.legend.labels = c.options.plugins.legend.labels || {};
-    c.options.plugins.legend.labels.color = lc;
-    c.update();
-  });
+  // Destroy and recreate charts so colors are always correct
+  if (chartsInit) {
+    [window._bayraqChart, window._madaChart, window._projectsChart,
+     window._ovProjectsChart, window._ovFinanceChart, window._ovLegalChart, window._sectorChart]
+      .forEach(c => { try { if (c) c.destroy(); } catch(e){} });
+    chartsInit = false;
+    initCharts();
+  }
 }
 function toggleTheme() {
   const isLight = document.body.classList.contains('light-mode');
