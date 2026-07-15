@@ -342,7 +342,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
   .mobile-search-row .search-input { width:100% !important; box-sizing:border-box; }
   .topbar-right { gap:6px !important; flex-shrink:0 !important; overflow:visible !important; padding-right:12px !important; }
   .topbar-role { font-size:8px !important; padding:3px 6px !important; }
-  .theme-btn { width:30px !important; height:30px !important; margin-right:0 !important; flex-shrink:0 !important; overflow:visible !important; border-radius:8px !important; }
+  .theme-btn { width:44px !important; height:24px !important; margin-right:4px !important; flex-shrink:0 !important; }
 
   /* Overview: stack sector chart + entity list vertically */
   .sector-chart-outer { flex-direction:column !important; gap:12px !important; }
@@ -556,8 +556,12 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .timeout-stay { background:rgba(202,164,133,0.15); border:1px solid rgba(202,164,133,0.4); color:var(--camel); border-radius:8px; padding:10px 26px; font-size:13px; cursor:pointer; font-family:inherit; transition:background .15s; }
 .timeout-stay:hover { background:rgba(202,164,133,0.25); }
 /* ── Theme toggle ── */
-.theme-btn { background:rgba(202,164,133,0.12); border:1px solid rgba(202,164,133,0.35); border-radius:8px; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(202,164,133,0.9); transition:all .15s; flex-shrink:0; margin-right:4px; }
-.theme-btn:hover { color:#CAA485; border-color:rgba(202,164,133,0.7); background:rgba(202,164,133,0.2); }
+.theme-btn { width:44px; height:24px; cursor:pointer; flex-shrink:0; margin-right:4px; background:none; border:none; padding:0; display:flex; align-items:center; }
+.toggle-track { width:44px; height:24px; border-radius:12px; background:rgba(202,164,133,0.25); border:1.5px solid rgba(202,164,133,0.5); position:relative; transition:background .2s, border-color .2s; }
+.toggle-knob { width:18px; height:18px; border-radius:50%; background:#CAA485; position:absolute; top:2px; left:2px; transition:transform .22s cubic-bezier(.4,0,.2,1); box-shadow:0 1px 3px rgba(0,0,0,0.3); }
+.theme-btn:hover .toggle-track { border-color:rgba(202,164,133,0.85); background:rgba(202,164,133,0.35); }
+body.light-mode .toggle-track { background:rgba(26,21,16,0.12); border-color:rgba(26,21,16,0.3); }
+body.light-mode .toggle-knob { transform:translateX(20px); background:#1a1510; }
 /* ── Trend indicators ── */
 .stat-trend { display:inline-block; font-size:10px; font-weight:700; padding:2px 7px; border-radius:8px; margin-top:5px; letter-spacing:.3px; }
 .trend-up   { background:rgba(92,200,152,0.15); color:#5cc898; }
@@ -594,7 +598,7 @@ body.light-mode .zt-table td { border-color:rgba(0,0,0,0.06); color:rgba(26,21,1
 body.light-mode .zt-table tbody tr:hover { background:rgba(0,0,0,0.03); }
 body.light-mode .search-input { background:rgba(0,0,0,0.06); border-color:rgba(0,0,0,0.15); color:#1a1510; }
 body.light-mode .search-input::placeholder { color:rgba(26,21,16,0.35); }
-body.light-mode .theme-btn { background:rgba(0,0,0,0.06); border-color:rgba(0,0,0,0.15); color:rgba(26,21,16,0.5); }
+/* light-mode theme-btn handled via CSS toggle */
 body.light-mode .nav-group-label { color:rgba(255,253,244,0.25); }
 body.light-mode .kpi-bar-wrap { background:rgba(0,0,0,0.08); }
 body.light-mode .vault-card { background:#ffffff; border-color:rgba(0,0,0,0.08); }
@@ -853,8 +857,7 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
       </div>
       <div class="topbar-right">
 <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle light/dark mode" aria-label="Toggle theme">
-          <svg id="theme-sun" width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" style="display:none"><circle cx="7.5" cy="7.5" r="2.5"/><path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M3 3l1 1M11 11l1 1M11 3l-1 1M3 11l1-1" stroke-linecap="round"/></svg>
-          <svg id="theme-moon" width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 9.5A6 6 0 015.5 2a6 6 0 100 11 6 6 0 007.5-3.5z" stroke-linecap="round"/></svg>
+          <div class="toggle-track"><div class="toggle-knob"></div></div>
         </button>
                 <div class="search-wrap desktop-search">
           <span class="search-icon">⌕</span>
@@ -1947,16 +1950,10 @@ function sendAuditLog(role) {
 
 // ── Dark / Light Theme ────────────────────────────────────────────────────────
 function applyTheme(mode) {
-  const sun  = document.getElementById('theme-sun');
-  const moon = document.getElementById('theme-moon');
   if (mode === 'light') {
     document.body.classList.add('light-mode');
-    if (sun)  sun.style.display  = 'block';
-    if (moon) moon.style.display = 'none';
   } else {
     document.body.classList.remove('light-mode');
-    if (sun)  sun.style.display  = 'none';
-    if (moon) moon.style.display = 'block';
   }
   // Destroy and recreate charts so colors are always correct
   if (chartsInit) {
