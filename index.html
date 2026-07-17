@@ -1172,6 +1172,80 @@ body.light-mode .zt-table th { color:rgba(26,21,16,0.35) !important; background:
 body.light-mode .zt-table td { color:rgba(26,21,16,0.82) !important; }
 body.light-mode .sb-user { color:rgba(255,253,244,0.55) !important; }
 body.light-mode .comp-upcoming { color:#c06012 !important; }
+
+/* ═══ MOBILE BOTTOM NAV ═══ */
+.mob-bottom-nav {
+  display:none;
+  position:fixed;
+  bottom:0; left:0; right:0;
+  height:58px;
+  background:rgba(3,12,24,0.98);
+  border-top:1px solid rgba(202,164,133,0.13);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  z-index:350;
+  flex-direction:row;
+  align-items:stretch;
+  overflow-x:auto;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.mob-bottom-nav::-webkit-scrollbar { display:none; }
+.mob-nav-item {
+  flex:1 0 auto;
+  min-width:52px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:3px;
+  cursor:pointer;
+  color:rgba(255,253,244,0.28);
+  font-size:7.5px;
+  font-weight:700;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  padding:8px 4px 4px;
+  transition:color .15s;
+  position:relative;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+.mob-nav-item.active { color:#CAA485; }
+.mob-nav-item.active::after {
+  content:'';
+  position:absolute;
+  top:0; left:50%; transform:translateX(-50%);
+  width:26px; height:2px;
+  background:#CAA485;
+  border-radius:0 0 3px 3px;
+}
+.mob-nav-item svg { flex-shrink:0; transition:opacity .15s; }
+.mob-nav-item:not(.active) svg { opacity:0.45; }
+.mob-nav-item span { line-height:1; }
+body.light-mode .mob-bottom-nav { background:rgba(240,237,230,0.98); border-top-color:rgba(0,0,0,0.08); }
+body.light-mode .mob-nav-item { color:rgba(26,21,16,0.30); }
+body.light-mode .mob-nav-item.active { color:#8a6840; }
+body.light-mode .mob-nav-item.active::after { background:#8a6840; }
+
+/* ═══ MOBILE OVERRIDES (post visual-identity) ═══ */
+@media (max-width:768px) {
+  .mob-bottom-nav { display:flex; }
+  /* Stat values: slightly smaller but still impactful */
+  .stat-val { font-size:28px !important; letter-spacing:-0.8px !important; }
+  .panel-title { font-size:22px !important; letter-spacing:-0.2px !important; }
+  /* Extra bottom padding for fixed bottom nav */
+  .content-area { padding-bottom:78px !important; }
+  /* Topbar compact */
+  .topbar-group { font-size:8px !important; letter-spacing:2px !important; }
+  .topbar-title { font-size:13px !important; }
+  /* Card padding tighter */
+  .card { padding:14px 14px 12px !important; }
+  /* Table headers sharper */
+  .zt-table th { font-size:7.5px !important; letter-spacing:1.2px !important; padding:8px 10px !important; }
+  .zt-table td { font-size:12px !important; padding:10px 10px !important; }
+}
 </style>
 </head>
 <body>
@@ -1844,6 +1918,43 @@ body.light-mode .comp-upcoming { color:#c06012 !important; }
 
     </div><!-- end content-area -->
   </div><!-- end main-area -->
+
+  <!-- ═══ MOBILE BOTTOM NAV ═══ -->
+  <div class="mob-bottom-nav" id="mob-bottom-nav">
+    <div class="mob-nav-item active" data-panel="overview" onclick="showPanel('overview')">
+      <svg width="20" height="20" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1.5" y="1.5" width="5" height="5" rx="1"/><rect x="8.5" y="1.5" width="5" height="5" rx="1"/><rect x="1.5" y="8.5" width="5" height="5" rx="1"/><rect x="8.5" y="8.5" width="5" height="5" rx="1"/></svg>
+      <span>Overview</span>
+    </div>
+    <div class="mob-nav-item" data-panel="finance" onclick="showPanel('finance')">
+      <svg width="20" height="20" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,12 4,8 7,10 10,5 14,8"/><line x1="1" y1="14" x2="14" y2="14"/></svg>
+      <span>Finance</span>
+    </div>
+    <div class="mob-nav-item" data-panel="projects" onclick="showPanel('projects')">
+      <svg width="20" height="20" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="13" height="9" rx="1.5"/><path d="M1 7h13"/><path d="M5 4V2.5a.5.5 0 01.5-.5h4a.5.5 0 01.5.5V4"/></svg>
+      <span>Projects</span>
+    </div>
+    <div class="mob-nav-item" data-panel="legal" onclick="showPanel('legal')">
+      <svg width="20" height="20" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="1" width="9" height="13" rx="1.5"/><line x1="5.5" y1="5" x2="9.5" y2="5"/><line x1="5.5" y1="7.5" x2="9.5" y2="7.5"/><line x1="5.5" y1="10" x2="8" y2="10"/></svg>
+      <span>Legal</span>
+    </div>
+    <div class="mob-nav-item" data-panel="compliance" onclick="showPanel('compliance')">
+      <svg width="20" height="20" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5L2 4.5v3.5c0 3 2.5 5.5 5.5 6 3-0.5 5.5-3 5.5-6V4.5z"/><polyline points="5,7.5 7,9.5 10,6"/></svg>
+      <span>Comply</span>
+    </div>
+    <div class="mob-nav-item" data-panel="kpi" onclick="showPanel('kpi')">
+      <svg width="20" height="20" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,11 4.5,7 7,9.5 10.5,4 14,7"/><polyline points="11,4 14,4 14,7"/></svg>
+      <span>KPI</span>
+    </div>
+    <div class="mob-nav-item" data-panel="vault" onclick="showPanel('vault')">
+      <svg width="20" height="20" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="10" height="7.5" rx="1.5"/><path d="M5 6V4.5a2.5 2.5 0 015 0V6"/><circle cx="7.5" cy="9.75" r="1"/></svg>
+      <span>Vault</span>
+    </div>
+    <div class="mob-nav-item" data-panel="diagnostic" onclick="showPanel('diagnostic')">
+      <svg width="20" height="20" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="7.5" r="6"/><polyline points="7.5,4.5 7.5,7.5 9.5,9"/></svg>
+      <span>Data</span>
+    </div>
+  </div>
+
 </div><!-- end app -->
 
 <script>
@@ -1950,6 +2061,11 @@ function applyRoleNav(r) {
     const req = el.dataset.requires;
     el.style.display = (r.panels.includes(req) || isFullAccess) ? 'flex' : 'none';
   });
+  // Sync mobile bottom nav visibility per role
+  document.querySelectorAll('#mob-bottom-nav .mob-nav-item[data-panel]').forEach(function(el) {
+    const req = el.dataset.panel;
+    el.style.display = (r.panels.includes(req) || isFullAccess) ? '' : 'none';
+  });
 }
 
 function showPanel(id) {
@@ -1985,6 +2101,10 @@ function showPanel(id) {
   if (ca) { ca.scrollTop = 0; ca.scrollLeft = 0; }
   // Also reset window scroll
   window.scrollTo(0, 0);
+  // Sync mobile bottom nav active state
+  document.querySelectorAll('#mob-bottom-nav .mob-nav-item[data-panel]').forEach(function(el) {
+    el.classList.toggle('active', el.dataset.panel === id);
+  });
 }
 
 function toggleSidebar() {
