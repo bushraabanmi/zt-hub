@@ -876,6 +876,15 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
     <div class="content-area">
       <div class="viewonly-banner" id="viewonly-banner">&#x1F441; View-only mode — editing is restricted for this role.</div>
 
+      <!-- Search empty state -->
+      <div id="search-empty" style="display:none;">
+        <div class="empty-state">
+          <div class="empty-state-icon">⌕</div>
+          <div class="empty-state-title" id="search-empty-title">No results found</div>
+          <div class="empty-state-sub">Try a different keyword or browse a panel directly.</div>
+        </div>
+      </div>
+
       <!-- ── OVERVIEW PANEL ── -->
       <div class="panel active" id="panel-overview">
         <div class="panel-header">
@@ -1449,6 +1458,8 @@ function launchApp(roleKey) {
     }
   });
   initCharts();
+  buildCommandCenter();
+  buildNotifications();
   // Fetch live data in background
   fetchLiveData().then(d => { liveData = d; applyLiveData(d); setTimeout(makeRowsExpandable, 200); });
 }
@@ -1672,6 +1683,7 @@ function riskClass(r) {
 // ═══════════════════════════════════════════════════════════
 function doSearch(q) {
   const term = q.trim().toLowerCase();
+  const emptyState = document.getElementById('search-empty');
   // Clear all highlights first
   document.querySelectorAll('.search-highlight').forEach(el => {
     el.outerHTML = el.textContent;
@@ -1680,6 +1692,7 @@ function doSearch(q) {
   if (!term) {
     // Show all rows
     document.querySelectorAll('.zt-table tbody tr').forEach(tr => tr.style.display = '');
+    if (emptyState) emptyState.style.display = 'none';
     return;
   }
 
@@ -1690,6 +1703,7 @@ function doSearch(q) {
   });
 
   // If any panel has matching rows, switch to it (pick first match)
+  let found = false;
   const panels = ['overview','finance','projects','legal','diagnostic'];
   for (const pid of panels) {
     const panel = document.getElementById('panel-' + pid);
@@ -1697,8 +1711,16 @@ function doSearch(q) {
     const visible = [...(panel.querySelectorAll('.zt-table tbody tr') || [])].some(tr => tr.style.display !== 'none');
     if (visible) {
       showPanel(pid);
+      found = true;
       break;
     }
+  }
+
+  // Show empty state if no match anywhere
+  if (emptyState) {
+    const titleEl = document.getElementById('search-empty-title');
+    if (titleEl) titleEl.textContent = 'No results for "' + term + '"';
+    emptyState.style.display = found ? 'none' : 'block';
   }
 }
 
@@ -2029,6 +2051,157 @@ function makeRowsExpandable() {
     });
   });
 }
+
+
+// ── Notification Center ──────────────────────────────────
+const NOTIF_STORE_KEY = 'zt_notifs_read';
+
+function buildNotifications() {
+  const items = [
+    { id:'n1', cat:'LEGAL',      icon:'📋', color:'red',
+      msg:'Office lease (Al-Yasmin, Riyadh) expires in <strong>3 days</strong>. Renewal or relocation decision needed.',
+      panel:'legal', time:'Now' },
+    { id:'n2', cat:'COMPLIANCE', icon:'⚠️', color:'red',
+      msg:'VAT registration for <strong>Wahat Al Dahab</strong> is overdue. Penalty risk increasing.',
+      panel:'compliance', time:'Today' },
+    { id:'n3', cat:'FINANCE',    icon:'📊', color:'amber',
+      msg:'7 entities have <strong>pending tax filings</strong>. Avg profile completeness is only 38%.',
+      panel:'finance', time:'This week' },
+    { id:'n4', cat:'PROJECTS',   icon:'🏗️', color:'gold',
+      msg:'6 tenders currently in <strong>evaluation phase</strong> — Mada Atlas & Altoz Petroleum contracts pending.',
+      panel:'projects', time:'This week' },
+    { id:'n5', cat:'DIAGNOSTIC', icon:'🔍', color:'amber',
+      msg:'<strong>15 data gaps</strong> detected across the Master File — 6 classified as critical.',
+      panel:'diagnostic', time:'Ongoing' },
+    { id:'n6', cat:'COMPLIANCE', icon:'📅', color:'gold',
+      msg:'GOSI registration deadline for <strong>Bayraq Al Maadin</strong> is in 12 days.',
+      panel:'compliance', time:'12 days' },
+    { id:'n7', cat:'LEGAL',      icon:'📄', color:'amber',
+      msg:'<strong>2 contracts</strong> in the registry have no linked documents in the Document Vault.',
+      panel:'vault', time:'Pending' },
+  ];
+
+  const readSet = new Set(JSON.parse(localStorage.getItem(NOTIF_STORE_KEY) || '[]'));
+  const unreadCount = items.filter(i => !readSet.has(i.id)).length;
+
+  const dot = document.getElementById('notif-dot');
+  if (dot) { dot.classList.toggle('active', unreadCount > 0); }
+
+  const list = document.getElementById('notif-list');
+  if (!list) return;
+  list.innerHTML = '';
+  if (!items.length) {
+    list.innerHTML = '<div class="notif-empty">All caught up — no new alerts.</div>';
+    return;
+  }
+  items.forEach(item => {
+    const isRead = readSet.has(item.id);
+    const el = document.createElement('div');
+    el.className = 'notif-item' + (isRead ? '' : ' unread');
+    el.dataset.id = item.id;
+    el.innerHTML =
+      '<div class="notif-icon ' + item.color + '">' + item.icon + '</div>' +
+      '<div class="notif-body">' +
+        '<div class="notif-cat" style="color:' + catColor(item.cat) + '">' + item.cat + '</div>' +
+        '<div class="notif-msg">' + item.msg + '</div>' +
+        '<div class="notif-time">' + item.time + '</div>' +
+      '</div>';
+    el.addEventListener('click', function() {
+      markRead(item.id);
+      closeNotifPanel();
+      showPanel(item.panel);
+    });
+    list.appendChild(el);
+  });
+}
+
+function catColor(cat) {
+  return {LEGAL:'#CAA485',COMPLIANCE:'#f0832a',FINANCE:'#5cc898',PROJECTS:'#508CC8',DIAGNOSTIC:'#e05c5c'}[cat] || '#CAA485';
+}
+
+function toggleNotifPanel() {
+  const panel = document.getElementById('notif-panel');
+  if (!panel) return;
+  const isOpen = panel.classList.toggle('open');
+  if (isOpen) {
+    buildNotifications();
+    document.addEventListener('click', outsideNotifClick, { once:true, capture:true });
+  }
+}
+
+function outsideNotifClick(e) {
+  const wrap = document.querySelector('.notif-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    closeNotifPanel();
+  } else {
+    // re-register if click was inside
+    document.addEventListener('click', outsideNotifClick, { once:true, capture:true });
+  }
+}
+
+function closeNotifPanel() {
+  const panel = document.getElementById('notif-panel');
+  if (panel) panel.classList.remove('open');
+}
+
+function markRead(id) {
+  const readSet = new Set(JSON.parse(localStorage.getItem(NOTIF_STORE_KEY) || '[]'));
+  readSet.add(id);
+  localStorage.setItem(NOTIF_STORE_KEY, JSON.stringify([...readSet]));
+  buildNotifications();
+}
+
+function markAllRead() {
+  const ids = ['n1','n2','n3','n4','n5','n6','n7'];
+  localStorage.setItem(NOTIF_STORE_KEY, JSON.stringify(ids));
+  buildNotifications();
+}
+
+// ── Command Center ───────────────────────────────────────
+function buildCommandCenter() {
+  // Action items
+  const actions = [
+    { dot:'red',   label:'Office lease (Al-Yasmin, Riyadh) expires in <strong>3 days</strong> — renewal decision needed.', tag:'LEGAL',      panel:'legal' },
+    { dot:'red',   label:'VAT registration overdue for <strong>Wahat Al Dahab</strong> — penalty risk active.',             tag:'COMPLIANCE', panel:'compliance' },
+    { dot:'amber', label:'<strong>7 entities</strong> with pending tax filings — Finance review required.',                  tag:'FINANCE',    panel:'finance' },
+    { dot:'amber', label:'<strong>15 data gaps</strong> in Master File, 6 critical — assign data owners.',                  tag:'DIAGNOSTIC', panel:'diagnostic' },
+    { dot:'gold',  label:'6 tenders in evaluation phase — <strong>Mada Atlas</strong> & <strong>Altoz Petroleum</strong> pending.', tag:'PROJECTS', panel:'projects' },
+  ];
+  const acl = document.getElementById('cc-action-list');
+  if (acl) {
+    acl.innerHTML = '';
+    actions.forEach(a => {
+      const el = document.createElement('div');
+      el.className = 'action-item';
+      el.innerHTML = '<div class="action-dot ' + a.dot + '"></div>' +
+        '<div class="action-label">' + a.label + '</div>' +
+        '<span class="action-panel">' + a.tag + '</span>';
+      el.addEventListener('click', () => showPanel(a.panel));
+      acl.appendChild(el);
+    });
+  }
+
+  // Upcoming deadlines
+  const deadlines = [
+    { date:'20 Jul', text:'Office lease expiry — Al-Yasmin, Riyadh (Mada Atlas)', tag:'LEGAL',      tagCls:'comp-urgent' },
+    { date:'31 Jul', text:'Q2 VAT filing — Bayraq Al Maadin',                      tag:'FINANCE',    tagCls:'comp-upcoming' },
+    { date:'15 Aug', text:'GOSI registration — Bayraq Al Maadin',                  tag:'COMPLIANCE', tagCls:'comp-upcoming' },
+    { date:'30 Aug', text:'Commercial Registration renewal — Saih Logistics',       tag:'LEGAL',      tagCls:'comp-upcoming' },
+    { date:'01 Sep', text:'Q3 VAT filing — Mada Atlas Contracting',                 tag:'FINANCE',    tagCls:'comp-sched' },
+  ];
+  const dcl = document.getElementById('cc-deadlines');
+  if (dcl) {
+    dcl.innerHTML = '';
+    deadlines.forEach(d => {
+      dcl.innerHTML += '<div class="cc-deadline-item">' +
+        '<span class="cc-deadline-date">' + d.date + '</span>' +
+        '<span class="cc-deadline-text">' + d.text + '</span>' +
+        '<span class="cc-deadline-tag comp-tag ' + d.tagCls + '">' + d.tag + '</span>' +
+        '</div>';
+    });
+  }
+}
+
 
 </script>
 </body>
