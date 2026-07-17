@@ -477,7 +477,7 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .search-input { background:rgba(255,253,244,0.06); border:1px solid rgba(202,164,133,0.2); border-radius:20px; padding:6px 14px 6px 34px; font-size:12px; color:rgba(255,253,244,0.85); font-family:'HacenMaghreb',sans-serif; outline:none; width:180px; transition:width .25s, border-color .2s; }
 .search-input::placeholder { color:rgba(255,253,244,0.3); }
 .search-input:focus { border-color:rgba(202,164,133,0.5); width:240px; }
-.search-icon { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:rgba(202,164,133,0.5); font-size:13px; pointer-events:none; }
+.search-icon { position:absolute; left:10px; top:50%; transform:translateY(-50%); color:rgba(202,164,133,0.5); pointer-events:none; display:flex; align-items:center; }
 .search-highlight { background:rgba(202,164,133,0.25); border-radius:2px; }
 
 /* ── Nav notification badge ── */
@@ -535,7 +535,10 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .vault-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
 .vault-card { background:rgba(255,253,244,0.03); border:1px solid rgba(202,164,133,0.12); border-radius:12px; padding:16px; }
 .vault-entity-name { font-size:13px; font-weight:700; color:var(--white); margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-.vault-entity-flag { font-size:16px; }
+.vault-entity-flag { display:inline-flex; align-items:center; justify-content:center;
+  font-size:9px; font-weight:700; letter-spacing:.5px; padding:2px 5px; border-radius:4px;
+  background:rgba(202,164,133,0.12); color:rgba(202,164,133,0.7); border:1px solid rgba(202,164,133,0.2);
+  font-family:inherit; }
 .vault-docs { display:flex; flex-direction:column; gap:6px; }
 .vault-doc-row { display:flex; align-items:center; gap:8px; padding:7px 10px; border-radius:8px; background:rgba(255,253,244,0.03); border:1px solid rgba(202,164,133,0.08); cursor:pointer; transition:background .15s; }
 .vault-doc-row:hover { background:rgba(202,164,133,0.08); border-color:rgba(202,164,133,0.25); }
@@ -860,7 +863,7 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
           <div class="toggle-track"><div class="toggle-knob"></div></div>
         </button>
                 <div class="search-wrap desktop-search">
-          <span class="search-icon">⌕</span>
+          <span class="search-icon" style="display:flex;align-items:center;"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="4.5"/><path d="M10.5 10.5l3 3"/></svg></span>
           <input class="search-input" id="search-input" type="text" placeholder="Search…" oninput="doSearch(this.value)" autocomplete="off">
         </div>
         <div class="topbar-role" id="topbar-role">ROLE</div>
@@ -869,17 +872,17 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
     </div>
     <div class="mobile-search-row" id="mobile-search-row">
       <div class="search-wrap" style="width:100%;">
-        <span class="search-icon">⌕</span>
+        <span class="search-icon" style="display:flex;align-items:center;"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="4.5"/><path d="M10.5 10.5l3 3"/></svg></span>
         <input class="search-input" type="text" placeholder="Search…" oninput="doSearch(this.value)" autocomplete="off" style="width:100%;box-sizing:border-box;">
       </div>
     </div>
     <div class="content-area">
-      <div class="viewonly-banner" id="viewonly-banner">&#x1F441; View-only mode — editing is restricted for this role.</div>
+      <div class="viewonly-banner" id="viewonly-banner"><span style="display:inline-flex;align-items:center;vertical-align:middle;margin-right:6px;"><svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7.5C2.5 4 5 2 7.5 2S12.5 4 14 7.5C12.5 11 10 13 7.5 13S2.5 11 1 7.5z"/><circle cx="7.5" cy="7.5" r="2"/></svg></span>View-only mode — editing is restricted for this role.</div>
 
       <!-- Search empty state -->
       <div id="search-empty" style="display:none;">
         <div class="empty-state">
-          <div class="empty-state-icon">⌕</div>
+          <div class="empty-state-icon"><svg width="32" height="32" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="6.5" r="4.5"/><path d="M10.5 10.5l3 3"/></svg></div>
           <div class="empty-state-title" id="search-empty-title">No results found</div>
           <div class="empty-state-sub">Try a different keyword or browse a panel directly.</div>
         </div>
@@ -1247,7 +1250,7 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
         </div>
         <div class="card" style="margin-bottom:20px;">
           <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(224,92,92,0.10);border:1px solid rgba(224,92,92,0.3);border-radius:8px;margin-bottom:16px;">
-            <span style="font-size:18px;">⚠️</span>
+            <span style="color:#f0832a;display:flex;align-items:center;"><svg width="16" height="16" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5L13.5 12.5H1.5z"/><path d="M7.5 6v3"/><circle cx="7.5" cy="11" r=".5" fill="currentColor"/></svg></span>
             <div><strong style="color:#e05c5c;">Urgent:</strong> <span style="color:rgba(255,253,244,0.8);">Office lease (ZT Holding KSA headquarters) expires <strong>July 16, 2026</strong> — 3 days. Pending rent dispute. Immediate action required.</span></div>
           </div>
           <div class="card-title">Contract Registry</div>
@@ -1854,12 +1857,12 @@ function buildKPIs() {
 
 // ── Document Vault ────────────────────────────────────────────────────────────
 const VAULT_ENTITIES = [
-  { name:'Bayraq Al Maadin', flag:'\u{1F1F8}\u{1F1E6}', docs:['Commercial Registration (CR)','VAT Certificate','Municipal License','Financial Statements FY2025','Employment Contracts'] },
-  { name:'Mada Atlas',       flag:'\u{1F1F8}\u{1F1E6}', docs:['Commercial Registration (CR)','VAT Certificate','JV Agreement (80/20)','Financial Statements FY2025','Project Contracts'] },
-  { name:'ZT Holding KSA',   flag:'\u{1F1F8}\u{1F1E6}', docs:['Commercial Registration (CR)','VAT Certificate','Office Lease Agreement','Financial Statements FY2025','Board Resolutions'] },
-  { name:'ZT Global',        flag:'\u{1F1E6}\u{1F1EA}', docs:['Trade License (Dubai)','MOA / AOA','Financial Statements','Office Lease','Key Contracts'] },
-  { name:'Techgenix',        flag:'\u{1F1F5}\u{1F1F0}', docs:['Company Registration','NTN Certificate','Financial Statements','Key Contracts'] },
-  { name:'Altoz Petroleum',  flag:'\u{1F1F8}\u{1F1E6}', docs:['Commercial Registration (CR)','Petroleum License','Acquisition Documents (SAR 416M)','Financial Statements'] },
+  { name:'Bayraq Al Maadin', flag:'KSA', docs:['Commercial Registration (CR)','VAT Certificate','Municipal License','Financial Statements FY2025','Employment Contracts'] },
+  { name:'Mada Atlas',       flag:'KSA', docs:['Commercial Registration (CR)','VAT Certificate','JV Agreement (80/20)','Financial Statements FY2025','Project Contracts'] },
+  { name:'ZT Holding KSA',   flag:'KSA', docs:['Commercial Registration (CR)','VAT Certificate','Office Lease Agreement','Financial Statements FY2025','Board Resolutions'] },
+  { name:'ZT Global',        flag:'UAE', docs:['Trade License (Dubai)','MOA / AOA','Financial Statements','Office Lease','Key Contracts'] },
+  { name:'Techgenix',        flag:'PK', docs:['Company Registration','NTN Certificate','Financial Statements','Key Contracts'] },
+  { name:'Altoz Petroleum',  flag:'KSA', docs:['Commercial Registration (CR)','Petroleum License','Acquisition Documents (SAR 416M)','Financial Statements'] },
 ];
 function vaultKey(entity, doc) { return 'vault_' + (entity+doc).replace(/[^a-zA-Z0-9]/g,'_'); }
 function buildVault() {
@@ -2058,25 +2061,25 @@ const NOTIF_STORE_KEY = 'zt_notifs_read';
 
 function buildNotifications() {
   const items = [
-    { id:'n1', cat:'LEGAL',      icon:'📋', color:'red',
+    { id:'n1', cat:'LEGAL',      icon:'<svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h7l2 2v9a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M4 6h7M4 9h5"/></svg>', color:'red',
       msg:'Office lease (Al-Yasmin, Riyadh) expires in <strong>3 days</strong>. Renewal or relocation decision needed.',
       panel:'legal', time:'Now' },
-    { id:'n2', cat:'COMPLIANCE', icon:'⚠️', color:'red',
+    { id:'n2', cat:'COMPLIANCE', icon:'<svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5L13.5 12.5H1.5z"/><path d="M7.5 6v3"/><circle cx="7.5" cy="11" r=".5" fill="currentColor"/></svg>', color:'red',
       msg:'VAT registration for <strong>Wahat Al Dahab</strong> is overdue. Penalty risk increasing.',
       panel:'compliance', time:'Today' },
-    { id:'n3', cat:'FINANCE',    icon:'📊', color:'amber',
+    { id:'n3', cat:'FINANCE',    icon:'<svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="1" width="13" height="13" rx="1"/><path d="M1 11l3.5-4 3 3 3.5-5L14 8"/></svg>', color:'amber',
       msg:'7 entities have <strong>pending tax filings</strong>. Avg profile completeness is only 38%.',
       panel:'finance', time:'This week' },
-    { id:'n4', cat:'PROJECTS',   icon:'🏗️', color:'gold',
+    { id:'n4', cat:'PROJECTS',   icon:'<svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="11" height="11" rx="1"/><path d="M5 7.5h5M7.5 5v5"/></svg>', color:'gold',
       msg:'6 tenders currently in <strong>evaluation phase</strong> — Mada Atlas & Altoz Petroleum contracts pending.',
       panel:'projects', time:'This week' },
-    { id:'n5', cat:'DIAGNOSTIC', icon:'🔍', color:'amber',
+    { id:'n5', cat:'DIAGNOSTIC', icon:'<svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="4"/><path d="M9.5 9.5l3 3"/></svg>', color:'amber',
       msg:'<strong>15 data gaps</strong> detected across the Master File — 6 classified as critical.',
       panel:'diagnostic', time:'Ongoing' },
-    { id:'n6', cat:'COMPLIANCE', icon:'📅', color:'gold',
+    { id:'n6', cat:'COMPLIANCE', icon:'<svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="2" width="13" height="12" rx="1"/><path d="M1 6h13M5 1v3M10 1v3"/></svg>', color:'gold',
       msg:'GOSI registration deadline for <strong>Bayraq Al Maadin</strong> is in 12 days.',
       panel:'compliance', time:'12 days' },
-    { id:'n7', cat:'LEGAL',      icon:'📄', color:'amber',
+    { id:'n7', cat:'LEGAL',      icon:'<svg width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2h7l2 2v9a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M4 6h7M4 9h5"/></svg>', color:'amber',
       msg:'<strong>2 contracts</strong> in the registry have no linked documents in the Document Vault.',
       panel:'vault', time:'Pending' },
   ];
