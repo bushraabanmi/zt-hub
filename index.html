@@ -994,6 +994,7 @@ body.light-mode .export-menu-item:hover { background:rgba(0,0,0,0.04); color:rgb
   letter-spacing:-1.5px !important;
   line-height:1 !important;
   margin-bottom:9px !important;
+  color:rgba(255,250,238,0.97) !important;
 }
 
 /* ── Stat labels ── */
@@ -1018,8 +1019,8 @@ body.light-mode .export-menu-item:hover { background:rgba(0,0,0,0.04); color:rgb
   align-items:center !important;
   gap:3px !important;
 }
-.trend-up   { background:rgba(82,196,138,0.13) !important; color:#52C48A !important; }
-.trend-down { background:rgba(224,92,92,0.13)  !important; color:#E05C5C !important; }
+.trend-up   { background:rgba(72,182,126,0.12) !important; color:#48B67E !important; }
+.trend-down { background:rgba(190,75,75,0.12)  !important; color:#C26060 !important; }
 
 /* ── Stat badges ── */
 .stat-badge {
@@ -1031,30 +1032,30 @@ body.light-mode .export-menu-item:hover { background:rgba(0,0,0,0.04); color:rgb
   margin-top:8px !important;
   display:inline-block !important;
 }
-.badge-ok   { background:rgba(82,196,138,0.13)  !important; color:#52C48A !important; border:1px solid rgba(82,196,138,0.24)  !important; }
-.badge-warn { background:rgba(240,131,42,0.13)  !important; color:#F0832A !important; border:1px solid rgba(240,131,42,0.24)  !important; }
-.badge-low  { background:rgba(224,92,92,0.13)   !important; color:#E05C5C !important; border:1px solid rgba(224,92,92,0.24)   !important; }
-.badge-info { background:rgba(107,170,219,0.13) !important; color:#6BAADB !important; border:1px solid rgba(107,170,219,0.24) !important; }
+.badge-ok   { background:rgba(72,182,126,0.11)  !important; color:#48B67E !important; border:1px solid rgba(72,182,126,0.22)  !important; }
+.badge-warn { background:rgba(210,120,50,0.12)  !important; color:#C87840 !important; border:1px solid rgba(210,120,50,0.22)  !important; }
+.badge-low  { background:rgba(190,75,75,0.12)   !important; color:#C26060 !important; border:1px solid rgba(190,75,75,0.22)   !important; }
+.badge-info { background:rgba(95,155,205,0.12)  !important; color:#5F9BCD !important; border:1px solid rgba(95,155,205,0.22)  !important; }
 
 /* ── Cards ── */
 .card {
-  background:rgba(255,253,244,0.032) !important;
-  border:1px solid rgba(202,164,133,0.13) !important;
+  background:rgba(255,253,244,0.055) !important;
+  border:1px solid rgba(202,164,133,0.14) !important;
   border-radius:14px !important;
   padding:20px 22px 18px !important;
-  box-shadow:0 2px 16px rgba(0,0,0,0.20) !important;
+  box-shadow:0 4px 24px rgba(0,0,0,0.28), 0 1px 4px rgba(0,0,0,0.15) !important;
   transition:border-color .18s, background .18s !important;
 }
 .card:hover {
-  background:rgba(255,253,244,0.045) !important;
-  border-color:rgba(202,164,133,0.26) !important;
+  background:rgba(255,253,244,0.075) !important;
+  border-color:rgba(202,164,133,0.28) !important;
 }
 .card::before {
   content:'' !important;
   position:absolute !important;
   top:0 !important; left:0 !important; right:0 !important;
   height:2px !important;
-  background:linear-gradient(90deg,rgba(202,164,133,0.75) 0%,rgba(202,164,133,0.04) 100%) !important;
+  background:linear-gradient(90deg,rgba(202,164,133,0.65) 0%,rgba(202,164,133,0.02) 100%) !important;
   border-radius:14px 14px 0 0 !important;
 }
 
@@ -1154,11 +1155,11 @@ body.light-mode .export-menu-item:hover { background:rgba(0,0,0,0.04); color:rgb
 
 /* ── Compliance status tags ── */
 .comp-tag { font-size:9px !important; font-weight:700 !important; letter-spacing:0.8px !important; padding:3px 9px !important; border-radius:5px !important; }
-.comp-urgent  { background:rgba(240,131,42,0.15) !important; color:#F0832A !important; border:1px solid rgba(240,131,42,0.26) !important; }
-.comp-upcoming{ background:rgba(240,131,42,0.10) !important; color:#D4801E !important; border:1px solid rgba(240,131,42,0.20) !important; }
-.comp-sched   { background:rgba(107,170,219,0.12) !important; color:#6BAADB !important; border:1px solid rgba(107,170,219,0.22) !important; }
-.comp-overdue { background:rgba(224,92,92,0.15)  !important; color:#E05C5C !important; border:1px solid rgba(224,92,92,0.26)  !important; }
-.comp-done    { background:rgba(82,196,138,0.12) !important; color:#52C48A !important; border:1px solid rgba(82,196,138,0.22)  !important; }
+.comp-urgent  { background:rgba(202,120,48,0.12) !important; color:#C87840 !important; border:1px solid rgba(202,120,48,0.22) !important; }
+.comp-upcoming{ background:rgba(185,140,60,0.10) !important; color:#B08A38 !important; border:1px solid rgba(185,140,60,0.18) !important; }
+.comp-sched   { background:rgba(85,145,195,0.11) !important; color:#5591C3 !important; border:1px solid rgba(85,145,195,0.20) !important; }
+.comp-overdue { background:rgba(185,72,72,0.12)  !important; color:#BA5252 !important; border:1px solid rgba(185,72,72,0.22)  !important; }
+.comp-done    { background:rgba(68,168,118,0.11) !important; color:#44A876 !important; border:1px solid rgba(68,168,118,0.20)  !important; }
 
 /* ── Light mode overrides ── */
 body.light-mode .panel-title { color:rgba(26,21,16,0.92) !important; }
@@ -1443,8 +1444,8 @@ body.light-mode .mob-nav-item.active::after { background:#8a6840; }
           <div class="panel-title">Group Overview</div>
           <div class="panel-sub" id="overview-date"></div>
         </div>
-        <div style="background:rgba(224,92,92,0.08);border:1px solid rgba(224,92,92,0.25);border-radius:8px;padding:12px 18px;margin-bottom:20px;font-size:12px;color:rgba(224,92,92,0.9);">
-          <strong>15 data gaps detected</strong> across the Master File — 6 critical. See the Data Diagnostic panel for full details and responsible parties.
+        <div style="background:rgba(202,164,133,0.07);border:1px solid rgba(202,164,133,0.18);border-radius:8px;padding:12px 18px;margin-bottom:20px;font-size:12px;color:rgba(202,164,133,0.72);">
+          <strong style="color:rgba(202,164,133,0.90);">15 data gaps detected</strong> across the Master File — 6 critical. See the Data Diagnostic panel for full details and responsible parties.
         </div>
         <div class="grid-4">
           <div class="card"><div class="stat-val">10</div><div class="stat-label">Group Entities</div></div>
@@ -1798,9 +1799,9 @@ body.light-mode .mob-nav-item.active::after { background:#8a6840; }
           <div class="card"><div class="stat-val">53.7M</div><div class="stat-label">Total Active Value (SAR)</div><div class="stat-badge badge-ok">7 active contracts</div><div class="stat-trend trend-up">&#x2191; 12% vs prior year</div></div>
         </div>
         <div class="card" style="margin-bottom:20px;">
-          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(224,92,92,0.10);border:1px solid rgba(224,92,92,0.3);border-radius:8px;margin-bottom:16px;">
-            <span style="color:#f0832a;display:flex;align-items:center;"><svg width="16" height="16" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5L13.5 12.5H1.5z"/><path d="M7.5 6v3"/><circle cx="7.5" cy="11" r=".5" fill="currentColor"/></svg></span>
-            <div><strong style="color:#e05c5c;">Urgent:</strong> <span style="color:rgba(255,253,244,0.8);">Office lease (ZT Holding KSA headquarters) expires <strong>July 16, 2026</strong> — 3 days. Pending rent dispute. Immediate action required.</span></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(185,72,72,0.08);border:1px solid rgba(185,72,72,0.22);border-radius:8px;margin-bottom:16px;">
+            <span style="color:#BA5252;display:flex;align-items:center;"><svg width="16" height="16" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1.5L13.5 12.5H1.5z"/><path d="M7.5 6v3"/><circle cx="7.5" cy="11" r=".5" fill="currentColor"/></svg></span>
+            <div><strong style="color:#C26060;">Urgent:</strong> <span style="color:rgba(255,253,244,0.72);">Office lease (ZT Holding KSA headquarters) expires <strong>July 16, 2026</strong> — 3 days. Pending rent dispute. Immediate action required.</span></div>
           </div>
           <div class="card-title">Contract Registry</div>
           <div class="table-wrap"><table class="zt-table">
