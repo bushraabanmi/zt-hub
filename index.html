@@ -904,6 +904,60 @@ body.light-mode .vault-doc-label { color:rgba(26,21,16,0.7) !important; }
 body.light-mode .kpi-name { color:rgba(26,21,16,0.65) !important; }
 body.light-mode .prog-bar span { color:rgba(26,21,16,0.55) !important; }
 body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
+
+/* ── Collapsible Sidebar ── */
+.sidebar { transition:width .22s cubic-bezier(.4,0,.2,1), transform .3s ease; overflow:hidden; }
+.sidebar.slim { width:52px; }
+.sidebar.slim .sb-logo-label,
+.sidebar.slim .nav-group-label,
+.sidebar.slim .sb-user,
+.sidebar.slim .nav-label { display:none; }
+.sidebar.slim .nav-item { padding:10px; justify-content:center; gap:0; }
+.sidebar.slim .nav-item.active::before { display:none; }
+.sidebar.slim .nav-icon-wrap { flex-shrink:0; }
+.sidebar.slim .sb-logo { align-items:center; padding:20px 8px 16px; }
+.sidebar.slim .sb-logo img { width:28px; }
+.sidebar.slim .sb-footer { padding:10px 6px; align-items:center; }
+.sidebar.slim .sb-badge { display:none; }
+.sidebar.slim .signout-btn { display:none; }
+.sidebar.slim .nav-badge { right:4px; top:4px; }
+.sidebar.slim .nav-diag-badge { position:absolute; right:4px; top:4px; margin:0; font-size:8px; padding:1px 4px; }
+
+.sb-collapse-btn { background:none; border:none; cursor:pointer; color:rgba(202,164,133,0.45); padding:6px; border-radius:6px; transition:color .15s, background .15s; display:flex; align-items:center; justify-content:center; margin-bottom:8px; }
+.sb-collapse-btn:hover { color:var(--camel); background:rgba(202,164,133,0.08); }
+.sidebar.slim .sb-collapse-btn { margin-bottom:6px; }
+
+.nav-diag-badge { margin-left:auto; background:#e05c5c; color:#fff; font-size:9px; font-weight:700; padding:2px 6px; border-radius:10px; }
+.sidebar.slim .nav-item .nav-diag-badge { margin-left:0; }
+
+/* ── Column Sorting ── */
+.zt-table th.sortable { cursor:pointer; user-select:none; }
+.zt-table th.sortable:hover { color:rgba(202,164,133,0.9); }
+.zt-table th.sort-asc::after { content:' ↑'; font-size:8px; opacity:0.7; }
+.zt-table th.sort-desc::after { content:' ↓'; font-size:8px; opacity:0.7; }
+
+/* ── Export Button ── */
+.export-btn { display:flex; align-items:center; gap:5px; background:rgba(202,164,133,0.10); border:1px solid rgba(202,164,133,0.18); color:rgba(202,164,133,0.75); font-size:11px; font-weight:600; letter-spacing:.5px; padding:4px 10px; border-radius:6px; cursor:pointer; font-family:inherit; transition:background .15s, color .15s; }
+.export-btn:hover { background:rgba(202,164,133,0.18); color:var(--camel); }
+.export-menu { position:absolute; right:0; top:calc(100% + 6px); background:#0b2336; border:1px solid rgba(202,164,133,0.18); border-radius:8px; padding:4px; min-width:150px; z-index:500; display:none; box-shadow:0 8px 24px rgba(0,0,0,0.4); }
+.export-menu.open { display:block; }
+.export-menu-item { display:flex; align-items:center; gap:8px; padding:8px 12px; color:rgba(255,253,244,0.7); font-size:12px; border-radius:5px; cursor:pointer; transition:background .15s, color .15s; }
+.export-menu-item:hover { background:rgba(202,164,133,0.1); color:var(--camel); }
+body.light-mode .export-btn { background:rgba(26,21,16,0.06); border-color:rgba(26,21,16,0.15); color:rgba(26,21,16,0.55); }
+body.light-mode .export-btn:hover { background:rgba(26,21,16,0.1); color:rgba(26,21,16,0.8); }
+body.light-mode .export-menu { background:#fff; border-color:rgba(0,0,0,0.12); box-shadow:0 8px 24px rgba(0,0,0,0.15); }
+body.light-mode .export-menu-item { color:rgba(26,21,16,0.65); }
+body.light-mode .export-menu-item:hover { background:rgba(0,0,0,0.04); color:rgba(26,21,16,0.9); }
+
+/* ── Print styles ── */
+@media print {
+  .sidebar, .topbar, .mobile-search-row, #viewonly-banner, .sb-footer { display:none !important; }
+  #app { height:auto !important; overflow:visible !important; }
+  .main-area { overflow:visible !important; }
+  .panel-content { overflow:visible !important; height:auto !important; }
+  .panel.active { display:block !important; page-break-inside:avoid; }
+  .card { break-inside:avoid; }
+}
 </style>
 </head>
 <body>
@@ -996,44 +1050,43 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
       <div class="nav-group-label">Main</div>
       <div class="nav-item active" onclick="showPanel('overview')" data-panel="overview" data-requires="overview">
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="currentColor" color="var(--camel)"><path d="M2 2h4v4H2V2zm7 0h4v4H9V2zM2 9h4v4H2V9zm7 0h4v4H9V9z"/></svg></div>
-        Overview
+        <span class="nav-label">Overview</span>
       </div>
       <div class="nav-item" onclick="showPanel('finance')" data-panel="finance" data-requires="finance">
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><path d="M1 11l3.5-4 3 3 3.5-5L14 8"/><rect x="1" y="1" width="13" height="13" rx="1"/></svg></div>
-        Finance
-        <span class="nav-badge active" id="badge-finance" title="6 entities missing financials"></span>
+        <span class="nav-label">Finance</span><span class="nav-badge active" id="badge-finance" title="6 entities missing financials"></span>
       </div>
       <div class="nav-item" onclick="showPanel('projects')" data-panel="projects" data-requires="projects">
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><rect x="2" y="2" width="11" height="11" rx="1"/><path d="M5 7.5h5M7.5 5v5"/></svg></div>
-        Projects
-        <span class="nav-badge active" id="badge-projects" title="6 tenders in evaluation"></span>
+        <span class="nav-label">Projects</span><span class="nav-badge active" id="badge-projects" title="6 tenders in evaluation"></span>
       </div>
       <div class="nav-item" onclick="showPanel('legal')" data-panel="legal" data-requires="legal">
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><path d="M4 2h7l2 2v9a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z"/><path d="M4 6h7M4 9h5"/></svg></div>
-        Legal
-        <span class="nav-badge active" id="badge-legal" title="Office lease expires in 3 days"></span>
+        <span class="nav-label">Legal</span><span class="nav-badge active" id="badge-legal" title="Office lease expires in 3 days"></span>
       </div>
       <div class="nav-group-label">Governance</div>
       <div class="nav-item" onclick="showPanel('compliance')" data-panel="compliance" data-requires="compliance">
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><rect x="2" y="1" width="11" height="13" rx="1"/><path d="M5 5h5M5 8h5M5 11h3"/></svg></div>
-        Compliance
+        <span class="nav-label">Compliance</span>
       </div>
       <div class="nav-item" onclick="showPanel('kpi')" data-panel="kpi" data-requires="kpi">
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><polyline points="2,11 5,7 8,9 13,3"/><path d="M11 3h2v2"/></svg></div>
-        KPI Tracker
+        <span class="nav-label">KPI Tracker</span>
       </div>
       <div class="nav-item" onclick="showPanel('vault')" data-panel="vault" data-requires="vault">
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><path d="M2 4.5A1.5 1.5 0 013.5 3h3L8 4.5h3.5A1.5 1.5 0 0113 6v5a1.5 1.5 0 01-1.5 1.5h-8A1.5 1.5 0 012 11V4.5z"/></svg></div>
-        Document Vault
+        <span class="nav-label">Document Vault</span>
       </div>
       <div class="nav-group-label">Intelligence</div>
       <div class="nav-item" onclick="showPanel('diagnostic')" data-panel="diagnostic" data-requires="diagnostic">
         <div class="nav-icon-wrap"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" color="var(--camel)"><circle cx="7.5" cy="7.5" r="6"/><path d="M7.5 4v4l2.5 1.5"/></svg></div>
-        Data Diagnostic
-        <span style="margin-left:auto;background:#e05c5c;color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;">15</span>
+        <span class="nav-label">Data Diagnostic</span><span class="nav-diag-badge">15</span>
       </div>
     </nav>
     <div class="sb-footer">
+      <button class="sb-collapse-btn" id="sb-collapse-btn" onclick="toggleSidebarSlim()" title="Collapse sidebar" aria-label="Collapse sidebar">
+        <svg id="sb-collapse-icon" width="14" height="14" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M9 3L4 7.5 9 12"/></svg>
+      </button>
       <div class="sb-badge" id="sb-badge">ROLE</div>
       <div class="sb-user" id="sb-user">ZT Group</div>
       <button class="signout-btn" onclick="signOut()">Sign Out</button>
@@ -1057,6 +1110,22 @@ body.light-mode .data-alert span { color:rgba(26,21,16,0.8) !important; }
                 <div class="search-wrap desktop-search">
           <span class="search-icon" style="display:flex;align-items:center;"><svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="6.5" cy="6.5" r="4.5"/><path d="M10.5 10.5l3 3"/></svg></span>
           <input class="search-input" id="search-input" type="text" placeholder="Search…" oninput="doSearch(this.value)" autocomplete="off">
+        </div>
+        <div class="export-wrap" id="export-wrap" style="display:none;position:relative;">
+          <button class="export-btn" onclick="toggleExportMenu()" title="Export data">
+            <svg width="13" height="13" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 1v9M4 7l3.5 3.5L11 7"/><path d="M2 11v2a1 1 0 001 1h9a1 1 0 001-1v-2"/></svg>
+            <span class="export-btn-label">Export</span>
+          </button>
+          <div class="export-menu" id="export-menu">
+            <div class="export-menu-item" onclick="exportCurrentCSV()">
+              <svg width="12" height="12" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="2" width="11" height="11" rx="1"/><path d="M5 7.5h5M7.5 5v5"/></svg>
+              Export CSV
+            </div>
+            <div class="export-menu-item" onclick="exportPrint()">
+              <svg width="12" height="12" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="1" width="9" height="4" rx="1"/><path d="M3 5H1v7h13V5h-2"/><rect x="3" y="9" width="9" height="5" rx="1"/></svg>
+              Print / PDF
+            </div>
+          </div>
         </div>
         <div class="topbar-role" id="topbar-role">ROLE</div>
         <div class="topbar-date" id="topbar-date"></div>
@@ -1631,6 +1700,8 @@ function launchApp(roleKey) {
   document.getElementById('sb-badge').textContent = r.badge;
   document.getElementById('sb-user').textContent  = 'ZT Group';
   document.getElementById('topbar-role').textContent = r.viewOnly ? 'CEO — VIEW ONLY' : r.badge;
+  document.getElementById('export-wrap').style.display = '';
+  initTableSort();
   document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
   document.getElementById('overview-date').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
   if (r.viewOnly) document.getElementById('viewonly-banner').style.display='block';
@@ -1668,6 +1739,7 @@ function applyRoleNav(r) {
 }
 
 function showPanel(id) {
+  _currentPanel = id;
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const panel = document.getElementById('panel-' + id);
@@ -2408,6 +2480,107 @@ function buildCommandCenter() {
   }
 }
 
+
+/* ── Sidebar slim/collapse ── */
+let sidebarSlim = false;
+function toggleSidebarSlim() {
+  sidebarSlim = !sidebarSlim;
+  const sb = document.querySelector('.sidebar');
+  const icon = document.getElementById('sb-collapse-icon');
+  sb.classList.toggle('slim', sidebarSlim);
+  if (icon) {
+    icon.innerHTML = sidebarSlim
+      ? '<path d="M6 3l5 4.5L6 12"/>'
+      : '<path d="M9 3L4 7.5 9 12"/>';
+  }
+  // Update tooltip
+  const btn = document.getElementById('sb-collapse-btn');
+  if (btn) btn.title = sidebarSlim ? 'Expand sidebar' : 'Collapse sidebar';
+}
+
+/* ── Column sorting ── */
+function initTableSort() {
+  document.querySelectorAll('.zt-table').forEach(function(table) {
+    table.querySelectorAll('th').forEach(function(th, i) {
+      th.classList.add('sortable');
+      th.addEventListener('click', function() { sortTable(table, i, th); });
+    });
+  });
+}
+
+function sortTable(table, colIdx, th) {
+  var tbody = table.querySelector('tbody');
+  if (!tbody) return;
+  var rows = Array.from(tbody.querySelectorAll('tr'));
+  var asc = th.dataset.sortDir !== 'asc';
+  table.querySelectorAll('th').forEach(function(h) {
+    h.dataset.sortDir = '';
+    h.classList.remove('sort-asc', 'sort-desc');
+  });
+  rows.sort(function(a, b) {
+    var ac = a.cells[colIdx], bc = b.cells[colIdx];
+    if (!ac || !bc) return 0;
+    var av = ac.textContent.trim(), bv = bc.textContent.trim();
+    var an = parseFloat(av.replace(/[^0-9.-]/g, '')), bn = parseFloat(bv.replace(/[^0-9.-]/g, ''));
+    if (!isNaN(an) && !isNaN(bn)) return asc ? an - bn : bn - an;
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  rows.forEach(function(r) { tbody.appendChild(r); });
+  th.dataset.sortDir = asc ? 'asc' : 'desc';
+  th.classList.add(asc ? 'sort-asc' : 'sort-desc');
+}
+
+/* ── Export ── */
+var _currentPanel = 'overview';
+
+function toggleExportMenu() {
+  var menu = document.getElementById('export-menu');
+  if (!menu) return;
+  menu.classList.toggle('open');
+  if (menu.classList.contains('open')) {
+    setTimeout(function() {
+      document.addEventListener('click', closeExportMenu, { once: true });
+    }, 10);
+  }
+}
+
+function closeExportMenu(e) {
+  var wrap = document.getElementById('export-wrap');
+  if (wrap && !wrap.contains(e.target)) {
+    var menu = document.getElementById('export-menu');
+    if (menu) menu.classList.remove('open');
+  }
+}
+
+function exportCurrentCSV() {
+  var menu = document.getElementById('export-menu');
+  if (menu) menu.classList.remove('open');
+  var panelEl = document.getElementById('panel-' + _currentPanel);
+  if (!panelEl) { alert('No table in current panel'); return; }
+  var table = panelEl.querySelector('.zt-table');
+  if (!table) { alert('No table in current panel'); return; }
+  var rows = Array.from(table.querySelectorAll('tr'));
+  var csv = rows.map(function(r) {
+    return Array.from(r.querySelectorAll('th,td')).map(function(c) {
+      return '"' + c.textContent.trim().replace(/"/g, '""') + '"';
+    }).join(',');
+  }).join('\n');
+  var blob = new Blob([csv], { type: 'text/csv' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'zt-' + _currentPanel + '-' + new Date().toISOString().slice(0, 10) + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function exportPrint() {
+  var menu = document.getElementById('export-menu');
+  if (menu) menu.classList.remove('open');
+  window.print();
+}
 
 </script>
 </body>
