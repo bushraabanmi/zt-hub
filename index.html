@@ -410,7 +410,8 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 
 /* PANELS */
 .panel { display:none; }
-.panel.active { display:block; }
+.panel.active { display:block; animation:panelIn .22s ease forwards; }
+@keyframes panelIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 .panel-header { margin-bottom:28px; }
 .panel-title { font-size:22px; font-weight:700; color:var(--white); margin-bottom:4px; }
 .panel-sub { font-size:12px; color:rgba(255,253,244,0.35); }
@@ -547,6 +548,21 @@ html, body { height:100%; font-family:'HacenMaghreb',system-ui,sans-serif; backg
 .vault-doc-status { font-size:10px; font-weight:700; padding:2px 7px; border-radius:8px; white-space:nowrap; }
 .vault-doc-linked { background:rgba(92,200,152,0.15); color:#5cc898; }
 .vault-doc-empty  { background:rgba(255,253,244,0.06); color:rgba(255,253,244,0.3); }
+
+
+/* Stagger child cards on panel entry */
+.panel.active .card { animation:cardIn .25s ease backwards; }
+.panel.active .card:nth-child(1) { animation-delay:.04s }
+.panel.active .card:nth-child(2) { animation-delay:.08s }
+.panel.active .card:nth-child(3) { animation-delay:.12s }
+.panel.active .card:nth-child(4) { animation-delay:.16s }
+@keyframes cardIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+/* Action items stagger */
+.panel.active .action-item:nth-child(1) { animation:cardIn .22s .05s ease backwards; }
+.panel.active .action-item:nth-child(2) { animation:cardIn .22s .10s ease backwards; }
+.panel.active .action-item:nth-child(3) { animation:cardIn .22s .15s ease backwards; }
+.panel.active .action-item:nth-child(4) { animation:cardIn .22s .20s ease backwards; }
+.panel.active .action-item:nth-child(5) { animation:cardIn .22s .25s ease backwards; }
 
 /* ── Session timeout modal ── */
 #timeout-modal { display:none; position:fixed; inset:0; background:rgba(3,15,28,0.88); z-index:99999; align-items:center; justify-content:center; }
@@ -1483,7 +1499,18 @@ function showPanel(id) {
   const nav = document.querySelector('.nav-item[data-panel="'+id+'"]');
   if (nav) nav.classList.add('active');
   const titles = {overview:'Group Overview',finance:'Finance',projects:'Projects',legal:'Legal',compliance:'Compliance Calendar',kpi:'KPI Tracker',vault:'Document Vault',diagnostic:'Data Diagnostic'};
-  document.getElementById('topbar-title').textContent = titles[id] || id;
+  const titleEl = document.getElementById('topbar-title');
+  titleEl.style.opacity = '0';
+  titleEl.style.transform = 'translateY(-4px)';
+  titleEl.style.transition = 'none';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      titleEl.textContent = titles[id] || id;
+      titleEl.style.transition = 'opacity .18s ease, transform .18s ease';
+      titleEl.style.opacity = '1';
+      titleEl.style.transform = 'translateY(0)';
+    });
+  });
   // Auto-close sidebar on mobile + reset scroll position
   if (window.innerWidth <= 768) {
     const sb = document.querySelector('.sidebar');
